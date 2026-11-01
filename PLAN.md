@@ -10,7 +10,7 @@ Mốc chặn (gate) không đạt → dừng, báo người dùng, không chuy�
 
 ## Giai đoạn P0 — Nền tảng (28/10 → 31/10)
 
-- [ ] **T00 — Khởi tạo môi trường**
+- [x] **T00 — Khởi tạo môi trường**
   - Đầu ra: `uv sync --extra dev` chạy được; `make test`, `make lint`, `make compliance` chạy được; git init + commit đầu.
   - Chấp nhận: 3 lệnh trên exit 0 trên repo khung.
   - Phụ thuộc: —
