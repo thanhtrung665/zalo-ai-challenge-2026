@@ -33,7 +33,7 @@ Mốc chặn (gate) không đạt → dừng, báo người dùng, không chuy�
   - Chấp nhận: không shop nào nằm ở 2 fold; tập khoá không giao với 5 fold dev; script tất định.
   - Phụ thuộc: T01
 
-- [ ] **T04 — Loader đa định dạng** (skill `/build-ingest`)
+- [x] **T04 — Loader đa định dạng** (skill `/build-ingest`)
   - Việc: `datamate/ingest/` đọc csv/xlsx/sqlite, dò header, preamble, gộp sheet cùng cột, cache parquet.
     Thêm `datamate/schema/readme.py` (D-006): trích mốc dữ liệu, bảng quy đổi văn bản, danh sách file, mô tả cột bằng regex.
   - Chấp nhận: đọc 30 shop train + toàn bộ public_test không exception; test header lệch dòng, sheet theo tháng, sqlite; ≤ 60 s/shop lớn nhất.
