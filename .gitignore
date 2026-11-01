@@ -1,0 +1,21 @@
+# Dữ liệu thi — không commit
+data/
+# Kết quả chạy, cache, weights
+runs/
+.cache/
+artifacts/
+models/
+result/
+*.parquet
+*.safetensors
+*.tar.gz
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+# Bí mật
+.env
+# Claude Code cá nhân
+.claude/settings.local.json

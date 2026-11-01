@@ -1,0 +1,26 @@
+# Từ điển viết tắt / khẩu ngữ → dạng chuẩn. Dùng cho entity linking và few-shot retrieval (không đổi câu gốc trong prompt).
+# Bổ sung dần khi phân tích lỗi; chỉ thêm từ chung của tiếng Việt, KHÔNG thêm tên riêng của shop.
+sp: sản phẩm
+sp.: sản phẩm
+dc: được
+đc: được
+ko: không
+k: không        # cẩn thận: "50k" = 50 nghìn — xử lý số trước khi tra từ điển
+kh: không
+hok: không
+bn: bao nhiêu
+bnhieu: bao nhiêu
+sl: số lượng
+dt: doanh thu
+dthu: doanh thu
+hn: hôm nay
+hqua: hôm qua
+tuần rồi: tuần trước
+tháng rồi: tháng trước
+cf: cà phê
+cafe: cà phê
+ts: trà sữa
+nv: nhân viên
+ncc: nhà cung cấp
+kh hàng: khách hàng
+tr: triệu

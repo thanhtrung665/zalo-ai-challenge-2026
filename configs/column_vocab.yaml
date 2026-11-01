@@ -1,0 +1,17 @@
+# Từ vựng tên cột tiếng Việt/Anh thường gặp — dùng cho bộ dò header (khớp sau khi bỏ dấu, chữ thường).
+# Chỉ thêm từ chung; KHÔNG thêm tên cột riêng của một shop cụ thể.
+date: [ngay, ngay dat, ngay ban, ngay ct, ngay chung tu, ngay hd, ngay hoa don, thoi gian, date, created, ngay nhap, ngay tra, han dung, hsd]
+id: [ma, ma don, ma hd, so hd, so phieu, so ct, ma phieu, id, order id, invoice]
+product: [ten hang, ten sp, san pham, mat hang, hang hoa, ten mon, mon, ten thuoc, thuoc, product, item]
+code: [ma hang, ma sp, ma vt, ma thuoc, sku, code]
+quantity: [sl, so luong, qty, quantity]
+unit: [dvt, don vi, don vi tinh, unit]
+price: [don gia, gia, gia ban, gia nhap, price]
+amount: [thanh tien, tong tien, tien hang, doanh thu, amount, total]
+discount: [giam gia, chiet khau, ck, km, khuyen mai, voucher]
+customer: [khach, khach hang, ten khach, ma kh, customer]
+status: [trang thai, tinh trang, status, ghi chu]
+payment: [thanh toan, hinh thuc, httt, payment, da tra, con no]
+staff: [nhan vien, nv, thu ngan, tho, staff]
+supplier: [ncc, nha cung cap, supplier]
+group: [nhom, nhom hang, loai, danh muc, category]

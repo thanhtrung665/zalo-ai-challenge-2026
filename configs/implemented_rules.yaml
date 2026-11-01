@@ -1,0 +1,8 @@
+# Danh sách luật rulebook đã hiện thực trong executor (T21 dùng để diff rulebook lúc chạy).
+# Mỗi mục: khoá ổn định, mục rulebook, hash nội dung dòng luật (sha1 của văn bản đã chuẩn hoá), hàm hiện thực.
+# Cập nhật mỗi khi /implement-rule thêm hoặc sửa một luật.
+rules: []
+#  - key: revenue.valid_orders
+#    section: "§1 Đơn tính vào doanh thu"
+#    hash: "<sha1>"
+#    impl: "datamate.executor.rules.sales.valid_orders"
