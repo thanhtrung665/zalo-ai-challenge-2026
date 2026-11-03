@@ -31,6 +31,24 @@ class RawTable:
     def num_cols(self) -> int:
         return len(self.df.columns)
 
+    def sheet_years(self) -> list[int | None]:
+        """Năm của sheet chứa từng dòng (rulebook §8: ngày thiếu năm lấy năm của sheet)."""
+        from datamate.ingest.dates import year_from_sheet_name
+
+        if "_src_sheet" not in self.df.columns:
+            return [None] * len(self.df)
+        cache: dict[str, int | None] = {}
+        out: list[int | None] = []
+        for sheet_name, src_file in zip(self.df["_src_sheet"].tolist(), self.df["_src_file"].tolist(), strict=False):
+            key = str(sheet_name)
+            if key not in cache:
+                cache[key] = year_from_sheet_name(key)
+            year = cache[key]
+            if year is None and src_file:
+                year = year_from_sheet_name(str(src_file))
+            out.append(year)
+        return out
+
 
 def _canonical_col_key(cols: list[str]) -> tuple[str, ...]:
     """Tạo chữ ký đại diện cho tập cột để nhận diện các sheet/file có cùng cấu trúc."""

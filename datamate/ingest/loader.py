@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from datamate.ingest.cache import get_cached_tables, save_cached_tables
+from datamate.ingest.grouping import clean_order_table, detect_order_id_column
 from datamate.ingest.readers import RawSheet, read_raw_file
 from datamate.ingest.tables import RawTable, assemble_tables
 from datamate.schema.readme import ReadmeFacts, parse_readme
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -19,6 +23,8 @@ class BusinessData:
     tables: list[RawTable]
     readme: ReadmeFacts
     source_sheets: list[RawSheet] = field(default_factory=list)
+    # Cột mã đơn của từng bảng (None = bảng không ghi theo đơn) — tầng schema dùng lại
+    order_columns: dict[str, str | None] = field(default_factory=dict)
 
     def get_table(self, name: str) -> RawTable | None:
         """Tìm bảng theo tên."""
@@ -44,7 +50,8 @@ def load_business(
     if use_cache:
         cached = get_cached_tables(biz_dir)
         if cached is not None:
-            return BusinessData(biz_id=biz_id, tables=cached, readme=readme)
+            order_columns = {t.name: detect_order_id_column(t.df) for t in cached}
+            return BusinessData(biz_id=biz_id, tables=cached, readme=readme, order_columns=order_columns)
 
     # 3. Quét và đọc tất cả các file dữ liệu trong thư mục shop
     data_extensions = (".csv", ".xlsx", ".xlsm", ".xls", ".sqlite", ".db", ".sqlite3")
@@ -58,7 +65,23 @@ def load_business(
     # 4. Xác định header, gộp bảng
     tables = assemble_tables(all_sheets, vocab_path=vocab_path)
 
-    # 5. Lưu vào cache
+    # 5. Làm sạch bảng ghi theo đơn: dedupe dòng trùng trong cùng đơn + fill-down cột cấp đơn
+    order_columns: dict[str, str | None] = {}
+    for t in tables:
+        result = clean_order_table(t.df)
+        order_columns[t.name] = result.order_col
+        if result.dropped_duplicates or result.filled_cells:
+            logger.debug(
+                "%s/%s: bỏ %d dòng trùng, điền %d ô cấp đơn (cột đơn=%s)",
+                biz_id,
+                t.name,
+                result.dropped_duplicates,
+                result.filled_cells,
+                result.order_col,
+            )
+        t.df = result.df
+
+    # 6. Lưu vào cache
     if use_cache and tables:
         save_cached_tables(biz_dir, tables)
 
@@ -67,4 +90,5 @@ def load_business(
         tables=tables,
         readme=readme,
         source_sheets=all_sheets,
+        order_columns=order_columns,
     )

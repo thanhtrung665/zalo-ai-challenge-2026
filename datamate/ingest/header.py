@@ -18,7 +18,8 @@ def _normalize_text(s: str) -> str:
     s = s.replace("đ", "d").replace("Đ", "D")
     nfkd = unicodedata.normalize("NFKD", s)
     no_mark = "".join(c for c in nfkd if not unicodedata.combining(c))
-    cleaned = re.sub(r"[^\w\s]", " ", no_mark).lower()
+    # "_" tách như dấu cách: tên cột kiểu "ngay_sinh" phải khớp từ vựng "ngay sinh"
+    cleaned = re.sub(r"[\W_]", " ", no_mark).lower()
     return " ".join(cleaned.split())
 
 
