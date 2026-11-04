@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -50,7 +51,15 @@ QTY_HINTS = ("so luong", "sl", "qty", "quantity")
 DATE_HINTS = ("ngay", "date", "thoi gian", "created", "han dung", "hsd", "ngay sinh", "sinh nhat")
 
 
+# Đơn vị "(ngày)" trong tên cột ("Hạn nợ (ngày)", "Hạn góp (ngày)") = số ngày / ngày trong tháng,
+# không phải mốc thời gian.
+# So khớp trên tên gốc vì _normalize_text bỏ dấu ngoặc.
+_DAY_UNIT = re.compile(r"\(\s*ng[aàáảãạ]y\s*\)", re.IGNORECASE)
+
+
 def classify_column(col: str, sample: list[str]) -> str | None:
+    if _DAY_UNIT.search(col):
+        return None
     cn = _normalize_text(col)
     if any(w in cn for w in _NOT_REALLY_DATE):
         return None
@@ -73,6 +82,7 @@ class ColStats:
     total: int = 0
     blank: int = 0
     ok: int = 0
+    fail: int = 0  # đếm đủ; `failed` chỉ giữ tối đa 200 ví dụ
     failed: list[str] = field(default_factory=list)
 
     @property
@@ -81,7 +91,7 @@ class ColStats:
 
     @property
     def fail_rate(self) -> float:
-        return len(self.failed) / self.non_blank if self.non_blank else 0.0
+        return self.fail / self.non_blank if self.non_blank else 0.0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -130,13 +140,13 @@ def main(argv: list[str] | None = None) -> int:
                     else:
                         parsed = parsed_col[i]
                     if parsed is None:
+                        stats.fail += 1
                         if len(stats.failed) < 200:
                             stats.failed.append(v)
                     else:
                         stats.ok += 1
                         if parsed == 0 and v not in ("0", "0.0", "0,0", "0đ"):
                             zero_from_null += 1
-                totals[kind] += stats.non_blank
 
     report = {
         "split": str(split),
@@ -145,17 +155,19 @@ def main(argv: list[str] | None = None) -> int:
         "columns": {},
     }
     bad_cols: list[tuple[str, float, int]] = []
+    for key, st in per_col.items():
+        totals[key.split(":", 1)[0]] += st.non_blank
     for key, st in sorted(per_col.items()):
         report["columns"][key] = {
             "total": st.total,
             "blank": st.blank,
             "ok": st.ok,
-            "fail": len(st.failed),
+            "fail": st.fail,
             "fail_rate": round(st.fail_rate, 6),
             "examples": st.failed[: args.max_fail_examples],
         }
-        if st.fail_rate > 0.005 and len(st.failed) >= 5:
-            bad_cols.append((key, st.fail_rate, len(st.failed)))
+        if st.fail_rate > 0.005 and st.fail >= 5:
+            bad_cols.append((key, st.fail_rate, st.fail))
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)

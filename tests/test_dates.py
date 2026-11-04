@@ -150,3 +150,11 @@ class TestColumnYearInference:
         vals = ["1/1", "15/3/2025"]
         got = parse_date_column(vals)
         assert got == [date(2025, 1, 1), date(2025, 3, 15)]
+
+
+def test_duration_columns_with_day_unit_are_not_dates():
+    from datamate.tools.parse_report import classify_column
+
+    assert classify_column("Hạn nợ (ngày)", ["30", "60"]) is None
+    assert classify_column("Hạn góp (ngày)", ["3", "12"]) is None
+    assert classify_column("Ngày bán", ["02/01/2026"]) == "date"

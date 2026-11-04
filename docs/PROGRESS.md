@@ -16,6 +16,7 @@ Mỗi task xong hoặc mỗi lần đo PA thêm một dòng **ở đầu bảng*
 
 | Ngày | Task | Thay đổi | PA 5 fold | Ghi chú |
 |---|---|---|---|---|
+| 2026-11-04 | T05/T06 | Đo parse trên train + public_test thật; sửa `parse_report` (đếm lỗi bị cắt ở 200, tổng ô cộng dồn, cột `(ngày)` là số ngày); predict trên public_test hợp lệ 1000/1000 | — | Hoàn thành T05, T06 (chờ nộp thử leaderboard). Dữ liệu giải nén ở /tmp vì `data/` bị chặn ghi |
 | 2026-11-04 | T11 | `datamate/timeutil/` (periods, calendar/Tết, ca, kỳ so sánh), 93 test tính tay | — | Hoàn thành T11 |
 | 2026-11-04 | T06 | `datamate/predict.py` + `datamate/io/`: abstain toàn bộ, ghi/flush từng dòng, log từng câu, watchdog 5h30; 4 test | — | Chưa tick: cần chạy trên public_test thật + nộp thử |
 | 2026-11-01 | T04 | `datamate/ingest/` (readers, header, tables, cache, loader) + `datamate/schema/readme.py` (D-006) | — | Hoàn thành T04, 46 tests pass |

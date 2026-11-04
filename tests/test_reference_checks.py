@@ -9,16 +9,19 @@ Khi executor (T12) xong, thêm test so executor với cùng tập câu.
 from __future__ import annotations
 
 import importlib.util
+import os
 import sys
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-SPLIT = ROOT / "data" / "train"
+# Có thể trỏ sang nơi khác (vd. /tmp) bằng DATAMATE_TRAIN_SPLIT khi data/ chỉ đọc
+SPLIT = Path(os.environ.get("DATAMATE_TRAIN_SPLIT", ROOT / "data" / "train"))
 
 pytestmark = pytest.mark.skipif(
     not (SPLIT / "answers.jsonl").exists()
+    or not (SPLIT / "data").is_dir()
     or importlib.util.find_spec("pandas") is None
     or importlib.util.find_spec("python_calamine") is None,
     reason="cần data/train và extra `data` (uv sync --extra data)",
