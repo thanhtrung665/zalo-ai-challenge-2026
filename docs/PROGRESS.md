@@ -16,6 +16,8 @@ Mỗi task xong hoặc mỗi lần đo PA thêm một dòng **ở đầu bảng*
 
 | Ngày | Task | Thay đổi | PA 5 fold | Ghi chú |
 |---|---|---|---|---|
+| 2026-11-04 | T11 | `datamate/timeutil/` (periods, calendar/Tết, ca, kỳ so sánh), 93 test tính tay | — | Hoàn thành T11 |
+| 2026-11-04 | T06 | `datamate/predict.py` + `datamate/io/`: abstain toàn bộ, ghi/flush từng dòng, log từng câu, watchdog 5h30; 4 test | — | Chưa tick: cần chạy trên public_test thật + nộp thử |
 | 2026-11-01 | T04 | `datamate/ingest/` (readers, header, tables, cache, loader) + `datamate/schema/readme.py` (D-006) | — | Hoàn thành T04, 46 tests pass |
 | 2026-11-01 | T00 | Khởi tạo môi trường: `uv sync`, `make test`, `make lint`, `make compliance` exit 0, git init | — | Hoàn thành T00 |
 | 2026-10-31 | — | Bộ kiểm tham chiếu `research/reference_checks.py`: 111/111 câu (biz_101, biz_102) khớp tuyệt đối | — | Xác nhận cách hiểu rulebook; thành test hồi quy |
