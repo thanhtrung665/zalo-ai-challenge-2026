@@ -2,6 +2,18 @@
 
 Mỗi quyết định: ngày, bối cảnh, lựa chọn, lý do, hệ quả. Mới nhất ở trên.
 
+## D-009 · 2026-11-04 · Lớp LLM theo hồ sơ phần cứng, Kaggle chỉ để phát triển
+
+- Bối cảnh: máy chấm là 2× RTX 5090 (bf16); môi trường dev của chúng ta là Kaggle (T4 ×2 hoặc P100, không bf16, không FlashAttention-2).
+- Lựa chọn: `datamate/llm` có giao diện batch + `GenResult` (theo skill /llm-runtime), `VLLMBackend` (chính), `HFBackend` (dự phòng, không giải mã
+  ràng buộc), `MockBackend`. Tham số theo hồ sơ trong `configs/llm.yaml` (`rtx5090x2`, `kaggle_t4x2`, `kaggle_hf`), không sửa code khi đổi máy.
+  `kaggle/` chứa notebook T09, script cài/đóng gói và README.
+- Hệ quả: kết quả trên T4 (fp16, có thể lượng tử) chỉ dùng để loại model hỏng, so sánh tương đối và gỡ lỗi; số cuối cùng phải xác nhận lại trên
+  hồ sơ `rtx5090x2` (T41). Số tham số cho luật thi đo trên bản gốc, không đo trên bản AWQ/GPTQ (đếm thiếu).
+- **Chưa kiểm:** code vLLM/HF chưa từng chạy trên GPU thật, mới được test bằng module `vllm` giả (tham số, thứ tự kết quả, logprob, bọc lỗi).
+  Tên repo model (`Qwen/Qwen3.5-9B`...) là dự kiến; container dev không truy cập được huggingface.co nên chưa xác minh giấy phép/ngày phát hành
+  — notebook in các thông tin này từ HfApi, và chỉ những gì được in ra mới được ghi vào `MODELS.md`.
+
 ## D-008 · 2026-11-04 · Mở rộng schema chuẩn và bộ đề xuất mapping heuristic
 
 - Bối cảnh: map 30 shop train lộ ra dữ liệu mà schema ban đầu không có chỗ chứa: giao nhiều đợt, hạn công nợ, lịch sử giá, bán theo lô kèm

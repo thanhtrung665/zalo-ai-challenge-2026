@@ -54,7 +54,7 @@ Mốc chặn (gate) không đạt → dừng, báo người dùng, không chuy�
 
 ## Giai đoạn P1 — Bộ thực thi lõi (01/11 → 07/11)
 
-- [ ] **T09 — Lớp LLM + chọn model** (skill `/llm-runtime`)
+- [ ] **T09 — Lớp LLM + chọn model** (skill `/llm-runtime`) _(04/11: xong phần code + gói Kaggle — `datamate/llm` (vLLM/HF/mock), `configs/llm.yaml`, `tools/llm_bench`, `kaggle/`; CÒN: chạy benchmark trên GPU thật và chốt model — xem `kaggle/README.md`)_
   - Việc: `datamate/llm/` backend vLLM offline (structured JSON, temperature 0, seed) + backend mock cho test; benchmark Qwen3.5-9B vs Qwen3-14B
     vs Qwen2.5-Coder-14B trên schema mapping 5 shop (độ đúng, tốc độ, VRAM). Chọn model tạm; xác nhận lại trên DSL ở T14.
   - Chấp nhận: `count_params` ≤ 15B cho tổ hợp chọn; quyết định ghi `docs/DECISIONS.md` + `MODELS.md` (tên, link, giấy phép, ngày phát hành, số tham số).

@@ -13,3 +13,7 @@ Số tham số lấy từ `uv run python -m datamate.tools.count_params <thư m�
 
 Ứng viên (SPEC §7): Qwen3.5-9B (~10B, Apache-2.0), Qwen3-14B (~14,8B, Apache-2.0), Qwen2.5-Coder-14B-Instruct (~14,7B, Apache-2.0),
 multilingual-e5-small (~118M, MIT).
+
+> **Trạng thái 04/11/2026:** chưa chốt model, chưa đo số nào. Tên repo Hugging Face là dự kiến (`kaggle/models.yaml`); giấy phép, ngày phát hành và
+> số tham số sẽ được ô 4 của notebook `kaggle/t09_llm_benchmark.ipynb` lấy từ HfApi và `count_params`. Không điền vào bảng trên khi chưa có số đó.
+

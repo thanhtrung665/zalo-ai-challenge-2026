@@ -1,0 +1,38 @@
+# Hồ sơ chạy LLM theo phần cứng. Chọn bằng biến môi trường DATAMATE_LLM_PROFILE hoặc tham số --profile.
+# Tham số lấy theo SPEC §7. Đổi giá trị ở đây, không sửa code.
+default_profile: rtx5090x2
+
+profiles:
+  # Máy chấm của BTC: 2× RTX 5090 (32 GB/card), CUDA >= 12.8, bf16.
+  rtx5090x2:
+    backend: vllm
+    dtype: bfloat16
+    tensor_parallel_size: 1        # 9B: 1 card; model ~14B bf16 cần 2
+    max_model_len: 16384
+    gpu_memory_utilization: 0.85
+    enable_prefix_caching: true
+    enforce_eager: false
+    quantization: null
+
+  # Kaggle: 2× T4 (16 GB/card, compute 7.5, KHÔNG có bf16, KHÔNG có FlashAttention-2). Chỉ để phát triển/benchmark.
+  # Kết quả trên profile này không đại diện cho bf16 trên 5090 (khác số học) — luôn xác nhận lại trên profile chính.
+  kaggle_t4x2:
+    backend: vllm
+    dtype: float16
+    tensor_parallel_size: 2
+    max_model_len: 8192
+    gpu_memory_utilization: 0.90
+    enable_prefix_caching: true
+    enforce_eager: true            # tránh lỗi CUDA graph / bộ nhớ trên T4; bỏ nếu chạy ổn
+    quantization: null             # "awq" / "gptq" / "bitsandbytes" nếu model 14B fp16 không vừa 2×16 GB
+
+  # Kaggle P100 (16 GB, compute 6.0): vLLM mới thường không hỗ trợ → dùng HF.
+  kaggle_hf:
+    backend: hf
+    dtype: float16
+    tensor_parallel_size: 1
+    max_model_len: 8192
+    gpu_memory_utilization: 0.90
+    enable_prefix_caching: false
+    enforce_eager: true
+    quantization: null

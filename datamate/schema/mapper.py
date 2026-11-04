@@ -6,12 +6,9 @@ Kết quả lưu cache để tái dùng, và tất định: temperature 0 ở ba
 
 from __future__ import annotations
 
-import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-
-from pydantic import ValidationError
 
 from datamate.ingest.cache import compute_dir_hash
 from datamate.ingest.loader import BusinessData
@@ -90,7 +87,6 @@ def map_shop(
 
     rounds = 0
     if backend is not None:
-        schema = ShopMapping.model_json_schema()
         prev: str | None = None
         issues_fb: list[Issue] | None = None
         err_fb: str | None = None
@@ -98,15 +94,14 @@ def map_shop(
         for rounds in range(1, max_rounds + 2):  # 1 lần sinh + tối đa max_rounds lần sửa
             prompt = build_mapping_prompt(biz, profiles, base, issues_fb, prev, err_fb)
             try:
-                raw = backend.generate_json(prompt, schema)
+                res = backend.generate_json([prompt], ShopMapping)[0]
             except LLMError as e:
                 log.append(f"vòng {rounds}: backend lỗi: {e}")
                 break
-            prev, issues_fb, err_fb = raw, None, None
-            try:
-                mapping = ShopMapping.model_validate_json(raw)
-            except (ValidationError, json.JSONDecodeError) as e:
-                err_fb = f"JSON không hợp lệ theo schema: {str(e)[:600]}"
+            prev, issues_fb, err_fb = res.text, None, None
+            mapping = res.parsed
+            if not isinstance(mapping, ShopMapping):
+                err_fb = f"JSON không hợp lệ theo schema: {res.error or 'không parse được'}"
                 log.append(f"vòng {rounds}: {err_fb[:120]}")
                 continue
             store, issues, err = _try(biz, mapping)
