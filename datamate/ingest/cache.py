@@ -15,7 +15,7 @@ from datamate.ingest.tables import RawTable
 logger = logging.getLogger(__name__)
 
 # Tăng khi đổi định dạng cache; bản cũ (meta là list, file đặt theo tên bảng) bị coi là không hợp lệ.
-CACHE_VERSION = 2
+CACHE_VERSION = 3  # 3: sửa nhận diện cột mã đơn (fill-down); bản cache cũ chứa bảng chưa điền
 
 
 def compute_dir_hash(biz_dir: Path) -> str:

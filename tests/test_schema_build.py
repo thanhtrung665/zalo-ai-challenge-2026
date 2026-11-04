@@ -415,3 +415,72 @@ def test_profile_infers_types():
 def test_norm_name_handles_na():
     assert norm_name(None) == "" and norm_name(pd.NA) == ""
     assert norm_name("Coca  Cola") == norm_name("coca cola") == "coca cola"
+
+
+def test_subtotal_rows_in_ledger_are_dropped():
+    """Sổ tự ghi có dòng 'Tổng ngày dd/mm' xen giữa; không phải mặt hàng, phải bỏ (không cộng đôi doanh thu)."""
+    t = raw(
+        "so",
+        [
+            {"ngay": "01/03/2026", "hang": "Mì", "sl": "2", "tien": "10,000"},
+            {"ngay": "01/03/2026", "hang": "Nước", "sl": "1", "tien": "5,000"},
+            {"ngay": "", "hang": "Tổng ngày 01/03", "sl": "", "tien": "15,000"},
+            {"ngay": "02/03/2026", "hang": "Mì", "sl": "1", "tien": "5,000"},
+        ],
+    )
+    m = ShopMapping(
+        tables=[
+            TableMapping(
+                source="so",
+                targets={
+                    "orders": {"order_datetime": "ngay"},
+                    "order_lines": {"product_name": "hang", "quantity": "sl", "line_amount": "tien"},
+                },
+            )
+        ]
+    )
+    s = build_store(biz([t]), m)
+    assert s.dropped_junk_rows["so"] == 1
+    assert s["order_lines"]["line_amount"].tolist() == [10000, 5000, 5000]
+    # không có cột mã đơn → mỗi dòng một đơn, mã tổng hợp theo vị trí dòng nguồn, orders khớp lines
+    assert len(s["orders"]) == 3 and set(s["orders"]["order_id"]) == set(s["order_lines"]["order_id"])
+
+
+def test_product_named_tong_hop_is_not_a_subtotal():
+    t = raw(
+        "so", [{"hang": "Tổng hợp vitamin", "sl": "1", "tien": "10,000"}, {"hang": "Mì", "sl": "1", "tien": "5,000"}]
+    )
+    m = ShopMapping(
+        tables=[
+            TableMapping(
+                source="so", targets={"order_lines": {"product_name": "hang", "quantity": "sl", "line_amount": "tien"}}
+            )
+        ]
+    )
+    s = build_store(biz([t]), m)
+    assert s.dropped_junk_rows["so"] == 0 and len(s["order_lines"]) == 2
+
+
+def test_return_evidence_flips_status_but_not_cancelled():
+    orders = raw("o", [{"id": "A", "st": "Xong"}, {"id": "B", "st": "Xong"}, {"id": "C", "st": "Huỷ"}])
+    lots = raw(
+        "l",
+        [{"id": "A", "lo": "L1", "tra": "2"}, {"id": "B", "lo": "L2", "tra": "0"}, {"id": "C", "lo": "L3", "tra": "5"}],
+        file="l.csv",
+    )
+    m = ShopMapping(
+        tables=[
+            TableMapping(source="o", targets={"orders": {"order_id": "id", "status": "st"}}),
+            TableMapping(
+                source="l", targets={"sale_lots": {"order_id": "id", "batch_no": "lo", "returned_base": "tra"}}
+            ),
+        ],
+        status_map=STATUS,
+    )
+    s = build_store(biz([orders, lots]), m)
+    assert s["orders"].set_index("order_id")["status"].to_dict() == {
+        "A": "returned",
+        "B": "completed",
+        "C": "cancelled",
+    }
+    assert s.info and "1 đơn" in s.info[0]

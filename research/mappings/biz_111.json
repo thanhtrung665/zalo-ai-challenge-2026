@@ -1,0 +1,68 @@
+{
+ "tables": [
+  {
+   "source": "chi_tiet_don",
+   "targets": {
+    "order_lines": {
+     "order_id": "Ma don",
+     "product_code": "ID SP",
+     "quantity": "SL",
+     "quantity_base": "SL quy đổi",
+     "unit": "Đơn vị (tính)",
+     "unit_price": "Giá đơn vị",
+     "line_amount": "T.Tiền"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "don_hang",
+   "targets": {
+    "orders": {
+     "order_id": "Mã chứng từ",
+     "order_datetime": "NgayBan",
+     "status": "Xử lý",
+     "customer_code": "Số KH",
+     "payment_method": "Phương thức TT",
+     "channel": "Bán qua",
+     "order_total": "Tổng bill",
+     "paid_amount": "Khách trả",
+     "debt_amount": "Còn lại"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "san_pham",
+   "targets": {
+    "products": {
+     "product_code": "SKU",
+     "product_name": "Sản phẩm",
+     "product_group": "Nhom hang",
+     "base_unit": "Đơn vị"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "thanh_toan",
+   "targets": {
+    "payments": {
+     "order_id": "Số HĐ",
+     "pay_date": "Thời gian thu",
+     "amount": "Tiền",
+     "method": "Phương thức"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "completed": "completed",
+  "cancelled": "cancelled",
+  "returned": "returned",
+  "shipping": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

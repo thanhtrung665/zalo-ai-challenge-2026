@@ -1,0 +1,106 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@DanhSachQuyDoi.xlsx",
+   "targets": {
+    "unit_conversions": {
+     "product_name": "Tên sản phẩm",
+     "unit": "Đơn vị quy đổi",
+     "factor_to_base": "Tỉ lệ quy đổi"
+    },
+    "products": {
+     "product_name": "Tên sản phẩm",
+     "base_unit": "Đơn vị cơ bản"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachSanPham.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "Mã SKU",
+     "product_name": "Tên sản phẩm",
+     "product_group": "Loại sản phẩm",
+     "base_unit": "Đơn vị"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachThuoc.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "Mã SKU",
+     "active_ingredient": "Hoạt chất",
+     "is_prescription": "Thuốc kê đơn"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "DonHang_ChiTiet_1",
+   "targets": {
+    "orders": {
+     "order_id": "Mã đơn hàng",
+     "order_datetime": "Ngày đặt hàng",
+     "status": "Trạng thái đơn hàng",
+     "customer_name": "Tên khách hàng"
+    },
+    "order_lines": {
+     "order_id": "Mã đơn hàng",
+     "product_name": "Tên sản phẩm",
+     "quantity": "Số lượng sản phẩm",
+     "unit": "Đơn vị tính",
+     "unit_price": "Giá sản phẩm",
+     "line_amount": "Tổng tiền"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DonHang_Lo_1.xlsx",
+   "targets": {
+    "sale_lots": {
+     "order_id": "Mã đơn hàng",
+     "batch_no": "Mã lô",
+     "quantity_base": "Số lượng",
+     "returned_base": "Số lượng trả"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DonNhapHang.xlsx",
+   "targets": {
+    "purchase_headers": {
+     "receipt_id": "Mã đơn nhập",
+     "receipt_date": "Ngày nhập",
+     "supplier": "Mã nhà cung cấp"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DonNhapHang_ChiTiet.xlsx",
+   "targets": {
+    "purchases": {
+     "receipt_id": "Mã đơn nhập",
+     "product_code": "Mã SKU",
+     "quantity": "Số lượng nhập",
+     "batch_no": "Mã lô",
+     "expiry_date": "Hạn sử dụng"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Đã hoàn thành": "completed",
+  "Đã hủy": "cancelled",
+  "Đã hoàn hàng": "returned",
+  "Đang giao dịch": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

@@ -1,0 +1,33 @@
+{
+ "tables": [
+  {
+   "source": "ban_hang",
+   "targets": {
+    "orders": {
+     "order_id": "Mã GD",
+     "order_datetime": "Ngày",
+     "status": "trang_thai",
+     "customer_name": "Tên khách"
+    },
+    "order_lines": {
+     "order_id": "Mã GD",
+     "product_name": "Sản phẩm",
+     "quantity": "Sluong",
+     "quantity_base": "Quy ra ĐV lẻ",
+     "unit": "Đơn vị tính",
+     "unit_price": "Giá bán lẻ",
+     "line_amount": "Tổng"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "đã lấy": "completed",
+  "Đã hủy đơn": "cancelled",
+  "Trả hàng": "returned",
+  "Đang giao": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

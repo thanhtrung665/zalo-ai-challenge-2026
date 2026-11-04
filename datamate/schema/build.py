@@ -88,8 +88,15 @@ def _time_delta(values: list[str]) -> pd.Series:
 
 
 # ---------------------------------------------------------------- trích một bảng nguồn
-def _junk_mask(raw: RawTable, source_cols: list[str]) -> pd.Series:
-    """Dòng rác: ghi chú cuối bảng ("Ghi chú: ...") hoặc header lặp lẫn trong dữ liệu (ô bằng đúng tên cột)."""
+_SUBTOTAL = re.compile(r"^(tong|cong) (ngay|thang|tuan|nam|cong|ket|so|doanh thu|tien)\b|^(tong cong|tong|cong)$")
+
+
+def _junk_mask(raw: RawTable, source_cols: list[str], name_cols: list[str]) -> pd.Series:
+    """Dòng rác trong bảng nguồn.
+
+    - ghi chú cuối bảng ("Ghi chú: ...") hoặc header lặp lẫn trong dữ liệu (ô bằng đúng tên cột);
+    - dòng tổng xen trong sổ tự ghi ("Tổng ngày 01/03", "Tổng cộng") ở cột tên hàng — không phải mặt hàng.
+    """
     df = raw.df
     mask = pd.Series(False, index=df.index)
     for c in source_cols:
@@ -98,6 +105,8 @@ def _junk_mask(raw: RawTable, source_cols: list[str]) -> pd.Series:
         norm = col.map(norm_name)
         mask |= (norm == header) & (header != "")
         mask |= col.str.lower().str.startswith("ghi chú:") | col.str.lower().str.startswith("ghi chu:")
+    for c in name_cols:
+        mask |= df[c].astype(str).map(norm_name).map(lambda v: bool(_SUBTOTAL.match(v)))
     return mask
 
 
@@ -135,9 +144,22 @@ def _extract(
         out["unit"] = out["unit"].where(out["unit"].notna(), units_from_qty) if "unit" in out else units_from_qty
     for canon, value in consts.items():
         out[canon] = pd.Series([value] * len(df), dtype="object")
+    if "order_id" in kinds and "order_id" not in out and "order_id" not in consts:
+        # bảng không ghi theo đơn (rulebook §8): mỗi dòng là một lần bán → mã đơn tổng hợp từ vị trí dòng nguồn
+        out["order_id"] = _row_ids(raw)
     res = pd.DataFrame(out)
     res.index = df.index
     return res.loc[keep].reset_index(drop=True)
+
+
+def _row_ids(raw: RawTable) -> pd.Series:
+    """Mã đơn tổng hợp `row:<file>:<sheet>:<dòng>` — orders và order_lines cùng bảng nguồn cho cùng một mã."""
+    d = raw.df
+    cols = [
+        d[c].astype(str) if c in d else pd.Series([""] * len(d), index=d.index)
+        for c in ("_src_file", "_src_sheet", "_src_row")
+    ]
+    return ("row:" + cols[0] + ":" + cols[1] + ":" + cols[2]).astype("object")
 
 
 # ---------------------------------------------------------------- lắp ráp
@@ -181,7 +203,8 @@ def build_store(biz: BusinessData, mapping: ShopMapping) -> CanonicalStore:
         missing = [s for s in used if s not in raw.df.columns]
         if missing:
             raise MappingError(f"bảng {tm.source!r} không có cột {missing}")
-        junk = _junk_mask(raw, used) if used else pd.Series(False, index=raw.df.index)
+        name_cols = sorted({cm["product_name"] for cm in tm.targets.values() if "product_name" in cm})
+        junk = _junk_mask(raw, used, name_cols) if used else pd.Series(False, index=raw.df.index)
         store.dropped_junk_rows[tm.source] = int(junk.sum())
         keep = ~junk
         for target, colmap in tm.targets.items():
@@ -197,7 +220,9 @@ def build_store(biz: BusinessData, mapping: ShopMapping) -> CanonicalStore:
     if no_code.any():
         products.loc[no_code, "product_code"] = products.loc[no_code, "product_name"].map(_synthetic_code)
         products.loc[no_code, "code_synthetic"] = True
-    products = products.dropna(subset=["product_code"]).drop_duplicates("product_code", keep="first")
+    products = products.dropna(subset=["product_code"])
+    # nhiều bảng cùng mô tả một mặt hàng (danh mục + thông tin thuốc): gộp thuộc tính, giá trị khác rỗng đầu tiên thắng
+    products = products.groupby("product_code", sort=False, as_index=False).first()
     name_to_code = {
         norm_name(n): c for c, n in zip(products["product_code"], products["product_name"], strict=True) if n
     }
@@ -311,6 +336,10 @@ def build_store(biz: BusinessData, mapping: ShopMapping) -> CanonicalStore:
         lambda v: None if v is None or pd.isna(v) else smap.get(norm_name(v), mapping.default_status)
     )
 
+    sale_lots = _concat(parts.get("sale_lots", []), "sale_lots")
+    returns = _concat(parts.get("returns", []), "returns")
+    _apply_returns(orders, sale_lots, returns, store)
+
     payments = _concat(parts.get("payments", []), "payments")
     expenses = _concat(parts.get("expenses", []), "expenses")
     moves = _concat(parts.get("stock_movements", []), "stock_movements")
@@ -337,11 +366,36 @@ def build_store(biz: BusinessData, mapping: ShopMapping) -> CanonicalStore:
         "purchases": purchases[list(CANONICAL["purchases"])],
         "stock_movements": moves,
         "expenses": expenses,
+        "sale_lots": sale_lots,
+        "returns": returns,
+        "deliveries": _concat(parts.get("deliveries", []), "deliveries"),
+        "debt_terms": _concat(parts.get("debt_terms", []), "debt_terms"),
+        "price_history": _fill_codes(_concat(parts.get("price_history", []), "price_history"), name_to_code),
     }
     for name, df in store.tables.items():
         store.tables[name] = _coerce(df, name)
     store.capabilities = _capabilities(store, mapping, biz)
     return store
+
+
+def _apply_returns(orders: pd.DataFrame, lots: pd.DataFrame, returns: pd.DataFrame, store: CanonicalStore) -> None:
+    """Đơn có trả hàng (kể cả trả một phần) là đơn `returned` (rulebook §1, §8); đơn huỷ giữ nguyên là huỷ.
+
+    Bằng chứng trả hàng: sổ bán theo lô có số lượng trả > 0, hoặc có phiếu trả hàng. Ngày trả lấy từ phiếu trả sớm nhất.
+    """
+    ids: set[str] = set()
+    if not lots.empty:
+        ids |= set(lots.loc[lots["returned_base"].astype("Float64") > 0, "order_id"].dropna())
+    if not returns.empty:
+        ids |= set(returns["order_id"].dropna())
+        first = returns.dropna(subset=["return_date"]).groupby("order_id")["return_date"].min()
+        orders["return_date"] = orders["order_id"].map(first)
+    if not ids:
+        return
+    flip = orders["order_id"].isin(ids) & orders["status"].isin(["completed", "delivering"])
+    if flip.any():
+        orders.loc[flip, "status"] = "returned"
+        store.info.append(f"{int(flip.sum())} đơn chuyển sang 'returned' vì có số lượng/phiếu trả hàng")
 
 
 _DTYPE = {

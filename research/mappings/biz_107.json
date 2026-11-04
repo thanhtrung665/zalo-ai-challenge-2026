@@ -1,0 +1,30 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1",
+   "targets": {
+    "orders": {
+     "order_datetime": "ngay_ban",
+     "status": "Trạng thái xử lý"
+    },
+    "order_lines": {
+     "product_name": "Nội dung",
+     "quantity": "Số lượng",
+     "quantity_base": "Số lượng lẻ",
+     "unit": "Đơn vị (tính)",
+     "unit_price": "don_gia",
+     "line_amount": "Tổng tiền"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Đã hoàn thành": "completed",
+  "Không giao được": "cancelled",
+  "trả hàng": "returned",
+  "đang gửi": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

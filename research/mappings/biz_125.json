@@ -1,0 +1,33 @@
+{
+ "tables": [
+  {
+   "source": "ban_hang",
+   "targets": {
+    "orders": {
+     "order_id": "Số phiếu",
+     "order_datetime": "Ngày bán",
+     "status": "Trạng thái xử lý",
+     "customer_name": "Khách hàng (tên)"
+    },
+    "order_lines": {
+     "order_id": "Số phiếu",
+     "product_name": "Hàng bán",
+     "quantity": "SL bán",
+     "quantity_base": "Số lượng lẻ",
+     "unit": "dvt",
+     "unit_price": "Giá 1 đv",
+     "line_amount": "Amount"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Đã hoàn thành": "completed",
+  "Huỷ đơn": "cancelled",
+  "Đã trả hàng": "returned",
+  "Đang xử lý": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

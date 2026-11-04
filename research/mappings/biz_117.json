@@ -1,0 +1,106 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@BangGia.xlsx",
+   "targets": {
+    "price_history": {
+     "product_name": "TenHang",
+     "effective_date": "Ngày áp dụng",
+     "price": "Giá mới",
+     "old_price": "Giá cũ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhMuc.xlsx",
+   "targets": {
+    "unit_conversions": {
+     "product_name": "Hàng",
+     "unit": "ĐV lớn",
+     "factor_to_base": "Hệ số QĐ"
+    },
+    "products": {
+     "product_name": "Hàng",
+     "base_unit": "ĐV nhỏ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "SoBanHang",
+   "targets": {
+    "orders": {
+     "order_id": "Mã phiếu",
+     "order_datetime": "Ngày lập",
+     "order_time": "Giờ",
+     "status": "Ghi chú TT",
+     "customer_name": "TenKH"
+    },
+    "order_lines": {
+     "order_id": "Mã phiếu",
+     "product_name": "Tên SP",
+     "quantity": "Số lượng hàng",
+     "unit": "DonVi",
+     "unit_price": "Giá",
+     "line_amount": "Tiền"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@SoGiaoHang.xlsx",
+   "targets": {
+    "deliveries": {
+     "order_id": "Mã bill",
+     "delivery_date": "Ngày chở",
+     "batch_no": "Lượt giao",
+     "product_name": "Tên hàng",
+     "quantity": "SL thực giao",
+     "vehicle_plate": "Biển số xe",
+     "driver": "Người chở"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@SoHanNo.xlsx",
+   "targets": {
+    "debt_terms": {
+     "order_id": "So hoa don",
+     "due_days": "Hạn nợ (ngày)",
+     "due_date": "Han tra"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@SoNhapHang.xlsx",
+   "targets": {
+    "purchases": {
+     "receipt_id": "Số phiếu",
+     "product_name": "Product",
+     "quantity": "SL nhập",
+     "unit": "ĐVT",
+     "unit_cost": "Giá nhập",
+     "receipt_date": "Ngày nhập",
+     "supplier": "Nhà cung cấp"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Thành công": "completed",
+  "Đã hoàn thành": "completed",
+  "đã lấy": "completed",
+  "hủy": "cancelled",
+  "trả lại": "returned",
+  "Hủy": "cancelled",
+  "Đã trả hàng": "returned",
+  "Đang giao": "delivering",
+  "đang gửi": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

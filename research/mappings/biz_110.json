@@ -1,0 +1,27 @@
+{
+ "tables": [
+  {
+   "source": "danh_sach_hoa_don",
+   "targets": {
+    "orders": {
+     "order_id": "Mã bill",
+     "order_datetime": "Ngày giao dịch",
+     "status": "Status",
+     "customer_name": "Bên mua",
+     "order_total": "TongTien",
+     "paid_amount": "Da tra",
+     "debt_amount": "Chưa trả"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Hoàn thành": "completed",
+  "Hoàn trả": "returned",
+  "khách hủy": "cancelled",
+  "Chờ giao": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

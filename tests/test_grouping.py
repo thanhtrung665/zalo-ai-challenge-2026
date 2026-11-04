@@ -155,3 +155,18 @@ class TestCleanOrderTable:
         before = df.copy(deep=True)
         clean_order_table(df)
         pd.testing.assert_frame_equal(df, before)
+
+
+def test_order_column_named_ma_don_hang_not_rejected_by_hang_keyword():
+    """Hồi quy: 'Mã đơn hàng' chứa 'hàng' nhưng là cột mã đơn; không được chọn nhầm 'Đơn vị tính'."""
+    df = pd.DataFrame(
+        {
+            "Mã đơn hàng": ["ORD1", "", "", "ORD2", "ORD3", ""],
+            "Tên sản phẩm": ["a", "b", "c", "d", "e", "f"],
+            "Đơn vị tính": ["gói", "gói", "chai", "gói", "chai", "gói"],
+        }
+    )
+    assert detect_order_id_column(df) == "Mã đơn hàng"
+    cleaned = clean_order_table(df.assign(**{"Tên khách hàng": ["An", "", "", "Bình", "Chi", ""]}))
+    assert cleaned.order_col == "Mã đơn hàng"
+    assert cleaned.df["Tên khách hàng"].tolist() == ["An", "An", "An", "Bình", "Chi", "Chi"]

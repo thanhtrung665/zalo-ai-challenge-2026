@@ -1,0 +1,114 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@DanhSachChiTietNhapHang.xlsx",
+   "targets": {
+    "purchases": {
+     "receipt_id": "Mã nhập hàng",
+     "product_code": "Mã hàng",
+     "quantity": "Số lượng",
+     "unit": "ĐVT",
+     "unit_cost": "Đơn giá",
+     "batch_no": "Lô",
+     "expiry_date": "Hạn sử dụng"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "DanhSachHoaDon",
+   "targets": {
+    "orders": {
+     "order_id": "Mã hóa đơn",
+     "order_datetime": "Thời gian",
+     "order_time": "Thời gian tạo",
+     "status": "Trạng thái",
+     "customer_code": "Mã KH",
+     "customer_name": "Khách hàng",
+     "channel": "Kênh bán",
+     "order_discount": "Giảm giá",
+     "paid_amount": "Khách đã trả",
+     "debt_amount": "Còn nợ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachHoaDonChiTiet.xlsx",
+   "targets": {
+    "order_lines": {
+     "order_id": "Mã hóa đơn",
+     "product_code": "Mã hàng",
+     "product_name": "Tên hàng",
+     "quantity": "Số lượng",
+     "quantity_base": "Số lượng quy đổi",
+     "unit_price": "Đơn giá",
+     "line_discount": "Giảm giá",
+     "line_amount": "Thành tiền"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachHoaDonChiTietLo.xlsx",
+   "targets": {
+    "sale_lots": {
+     "order_id": "Mã hóa đơn",
+     "line_no": "STT",
+     "batch_no": "Lô",
+     "quantity_base": "Số lượng (ĐVT cơ bản)",
+     "returned_base": "Số lượng trả (ĐVT cơ bản)"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachNhapHang.xlsx",
+   "targets": {
+    "purchase_headers": {
+     "receipt_id": "Mã nhập hàng",
+     "receipt_date": "Thời gian",
+     "supplier": "Mã NCC",
+     "status": "Trạng thái",
+     "amount": "Cần trả NCC"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachSanPham.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "Mã hàng",
+     "product_name": "Tên hàng",
+     "product_group": "Nhóm hàng(3 Cấp)",
+     "base_unit": "ĐVT",
+     "catalog_cost": "Giá vốn"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachThuoc.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "Mã hàng",
+     "active_ingredient": "Hoạt chất",
+     "is_prescription": "Thuốc kê đơn"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "ok": "completed",
+  "trả hàng": "returned",
+  "hủy đơn": "cancelled",
+  "Thành công": "completed",
+  "Đã trả hàng": "returned",
+  "Huỷ đơn": "cancelled",
+  "Đang xử lý": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

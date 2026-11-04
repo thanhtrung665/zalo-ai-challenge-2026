@@ -1,0 +1,48 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1",
+   "targets": {
+    "products": {
+     "product_code": "Mã hàng hóa",
+     "product_name": "Tên hàng hóa",
+     "product_group": "Nhóm hàng hóa",
+     "base_unit": "Đơn vị tính",
+     "catalog_cost": "Giá vốn"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "So_chi_tiet_ban_hang_1",
+   "targets": {
+    "orders": {
+     "order_id": "Mã đơn hàng",
+     "order_datetime": "Ngày",
+     "status": "Trạng thái"
+    },
+    "order_lines": {
+     "order_id": "Mã đơn hàng",
+     "product_name": "Tên hàng hóa",
+     "quantity": "Số lượng",
+     "quantity_base": "Số lượng quy đổi",
+     "unit": "Đơn vị tính",
+     "unit_price": "Đơn giá",
+     "line_amount": "Thành tiền"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "xong": "completed",
+  "cancel": "cancelled",
+  "trả hàng": "returned",
+  "Đã hoàn thành": "completed",
+  "Đã hủy đơn": "cancelled",
+  "Hoàn trả": "returned",
+  "Đang vận chuyển": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

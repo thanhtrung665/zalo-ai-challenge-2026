@@ -1,0 +1,75 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@Bảng kê phiếu giao hàng.xlsx",
+   "targets": {
+    "deliveries": {
+     "order_id": "Mã đơn hàng",
+     "delivery_date": "Ngày giao hàng",
+     "batch_no": "Lần giao",
+     "product_name": "Tên hàng hóa",
+     "quantity": "Số lượng giao",
+     "unit": "Đơn vị tính",
+     "vehicle_plate": "Biển số xe",
+     "driver": "Người giao hàng"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@Chi tiết công nợ theo hạn.xlsx",
+   "targets": {
+    "debt_terms": {
+     "order_id": "Mã đơn hàng",
+     "due_days": "Số ngày được nợ",
+     "due_date": "Hạn thanh toán"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@Danh sách hàng hóa.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "Mã hàng hóa",
+     "product_name": "Tên hàng hóa",
+     "product_group": "Nhóm hàng hóa",
+     "base_unit": "Đơn vị tính"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "So_chi_tiet_ban_hang",
+   "targets": {
+    "orders": {
+     "order_id": "Mã đơn hàng",
+     "order_datetime": "Ngày",
+     "status": "Trạng thái",
+     "customer_name": "Khách hàng"
+    },
+    "order_lines": {
+     "order_id": "Mã đơn hàng",
+     "product_name": "Tên hàng hóa",
+     "quantity": "Số lượng",
+     "quantity_base": "Số lượng quy đổi",
+     "unit": "Đơn vị tính",
+     "unit_price": "Đơn giá",
+     "line_amount": "Thành tiền"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "đã xong": "completed",
+  "hủy": "cancelled",
+  "hàng trả về": "returned",
+  "Đã giao": "completed",
+  "Trả hàng": "returned",
+  "Không giao được": "cancelled",
+  "Đang xử lý": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

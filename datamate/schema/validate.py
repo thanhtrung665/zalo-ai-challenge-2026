@@ -159,7 +159,8 @@ def validate_store(store: CanonicalStore) -> list[Issue]:
         if len(both):
 
             def classify(r: pd.Series) -> str:
-                """ok | surcharge (tổng > Σ dòng: phí giao/VAT chưa có cột riêng) | deficit (tổng < Σ dòng: sai)."""
+                """ok | surcharge (tổng > Σ dòng: phí giao/VAT chưa có cột riêng) | discount (tổng hơi nhỏ hơn: voucher
+                cấp đơn không có cột riêng) | deficit (tổng nhỏ hơn hẳn Σ dòng: sai cột)."""
                 tot, s = int(r["order_total"]), int(r["_sum"])
                 ship = int(r["shipping_fee"]) if pd.notna(r["shipping_fee"]) else 0
                 vat = int(r["vat"]) if pd.notna(r["vat"]) else 0
@@ -167,17 +168,20 @@ def validate_store(store: CanonicalStore) -> list[Issue]:
                 cands = {s, s + ship, s - disc, s + ship - disc, s + ship + vat - disc, s + vat - disc, s + vat}
                 if any(abs(tot - c) <= 1 for c in cands):
                     return "ok"
-                return "surcharge" if tot > s - disc else "deficit"
+                if tot > s - disc:
+                    return "surcharge"
+                return "deficit" if s > 0 and tot < 0.5 * s else "discount"
 
             kinds = both.apply(classify, axis=1)
-            n, deficit, surcharge = len(both), int((kinds == "deficit").sum()), int((kinds == "surcharge").sum())
+            n = len(both)
+            deficit, surcharge, discount = (int((kinds == k).sum()) for k in ("deficit", "surcharge", "discount"))
             if _ratio(deficit, n) > 1 - TOTAL_MATCH_RATIO:
                 issues.append(
                     Issue(
                         code="total_mismatch",
                         severity="error",
                         table="orders",
-                        message=f"{deficit}/{n} đơn có tổng nhỏ hơn Σ thành tiền dòng sau giảm giá",
+                        message=f"{deficit}/{n} đơn có tổng nhỏ hơn một nửa Σ thành tiền dòng (sai cột tổng?)",
                         count=deficit,
                     )
                 )
@@ -189,6 +193,16 @@ def validate_store(store: CanonicalStore) -> list[Issue]:
                         table="orders",
                         message=f"{surcharge}/{n} đơn có tổng lớn hơn Σ dòng (phí giao/VAT chưa có cột riêng?)",
                         count=surcharge,
+                    )
+                )
+            if discount:
+                issues.append(
+                    Issue(
+                        code="implicit_order_discount",
+                        severity="warn",
+                        table="orders",
+                        message=f"{discount}/{n} đơn có tổng nhỏ hơn Σ dòng (voucher cấp đơn chưa có cột riêng?)",
+                        count=discount,
                     )
                 )
 

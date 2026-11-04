@@ -1,0 +1,68 @@
+{
+ "tables": [
+  {
+   "source": "chi_tiet_don",
+   "targets": {
+    "order_lines": {
+     "order_id": "Số CT",
+     "product_code": "Mã hàng bán",
+     "quantity": "S.L",
+     "quantity_base": "Quy ra ĐV lẻ",
+     "unit": "ĐV tính",
+     "unit_price": "Giá 1 đv",
+     "line_discount": "Giảm giá",
+     "line_amount": "Tiền bán"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "don_hang",
+   "targets": {
+    "orders": {
+     "order_id": "Số phiếu",
+     "order_datetime": "Ngày bán",
+     "status": "Tình trạng đơn",
+     "customer_code": "Mã khách mua",
+     "payment_method": "Hình thức thanh toán",
+     "order_total": "Phải thu",
+     "paid_amount": "Thanh toán",
+     "debt_amount": "Dư nợ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "san_pham",
+   "targets": {
+    "products": {
+     "product_code": "Mã HH",
+     "product_name": "Tên sản phẩm",
+     "product_group": "Nhom hang",
+     "base_unit": "Đơn vị tính"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "thanh_toan",
+   "targets": {
+    "payments": {
+     "order_id": "Mã giao dịch",
+     "pay_date": "Thời điểm",
+     "amount": "Tiền",
+     "method": "PTTT"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "completed": "completed",
+  "cancelled": "cancelled",
+  "returned": "returned",
+  "shipping": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

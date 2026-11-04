@@ -1,0 +1,160 @@
+{
+ "tables": [
+  {
+   "source": "chi_tiet_don",
+   "targets": {
+    "order_lines": {
+     "order_id": "MaHoaDon",
+     "product_code": "MaHangHoa",
+     "quantity": "SL",
+     "quantity_base": "SLQuyDoi",
+     "unit": "DonViTinh",
+     "unit_price": "GiaDonVi",
+     "line_discount": "ChietKhau",
+     "line_amount": "TriGia",
+     "line_cost_per_unit": "GiaVonLucBan"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "chi_tiet_don_lo",
+   "targets": {
+    "sale_lots": {
+     "order_id": "MaHoaDon",
+     "line_no": "SoThuTu",
+     "batch_no": "MaLo",
+     "quantity_base": "SLQuyDoi",
+     "returned_base": "SLTraQuyDoi"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "chi_tiet_nhap",
+   "targets": {
+    "purchases": {
+     "receipt_id": "MaPhieuNhap",
+     "product_code": "MaHangHoa",
+     "quantity": "SL",
+     "unit": "DonViTinh",
+     "unit_cost": "DonGiaNhap",
+     "batch_no": "MaLo",
+     "expiry_date": "HanSuDung"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "don_hang",
+   "targets": {
+    "orders": {
+     "order_id": "MaHoaDon",
+     "order_datetime": "NgayLap",
+     "status": "TinhTrang",
+     "customer_code": "MaKhachHang",
+     "payment_method": "PhuongThucTT",
+     "channel": "KenhBanHang",
+     "order_discount": "ChietKhau",
+     "shipping_fee": "PhiVanChuyen",
+     "vat": "ThueGTGT",
+     "order_total": "TongThanhToan",
+     "staff": "MaNhanVien",
+     "paid_amount": "KhachDaTra",
+     "debt_amount": "ConPhaiThu"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "don_vi_sp",
+   "targets": {
+    "unit_conversions": {
+     "product_code": "MaHangHoa",
+     "unit": "DonViTinh",
+     "factor_to_base": "HeSoQuyDoi"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "lich_su_gia",
+   "targets": {
+    "price_history": {
+     "product_code": "MaHangHoa",
+     "effective_date": "NgayApDung",
+     "price": "GiaBanLe"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "phieu_nhap",
+   "targets": {
+    "purchase_headers": {
+     "receipt_id": "MaPhieuNhap",
+     "receipt_date": "NgayNhapKho",
+     "supplier": "MaNhaCungCap",
+     "status": "TinhTrang",
+     "amount": "TongGiaTriNhap"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "san_pham",
+   "targets": {
+    "products": {
+     "product_code": "MaHangHoa",
+     "product_name": "TenGoi",
+     "product_group": "DanhMuc",
+     "base_unit": "DonViCoSo",
+     "catalog_cost": "GiaVonHang"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "thanh_toan",
+   "targets": {
+    "payments": {
+     "order_id": "MaHoaDon",
+     "pay_date": "NgayGioThu",
+     "amount": "SoTienThu",
+     "method": "PhuongThuc"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "thong_tin_thuoc",
+   "targets": {
+    "products": {
+     "product_code": "MaHangHoa",
+     "active_ingredient": "ThanhPhanChinh",
+     "is_prescription": "BanTheoDon"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "tra_hang",
+   "targets": {
+    "returns": {
+     "order_id": "MaHoaDon",
+     "return_date": "NgayGioTra",
+     "refund_amount": "TienHoanTra"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "completed": "completed",
+  "returned": "returned",
+  "cancelled": "cancelled",
+  "shipping": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

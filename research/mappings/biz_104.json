@@ -1,0 +1,47 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@DanhSachQuyDoi.xlsx",
+   "targets": {
+    "unit_conversions": {
+     "product_name": "Tên sản phẩm",
+     "unit": "Đơn vị quy đổi",
+     "factor_to_base": "Tỉ lệ quy đổi"
+    },
+    "products": {
+     "product_name": "Tên sản phẩm",
+     "base_unit": "Đơn vị cơ bản"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DonHang_ChiTiet.xlsx",
+   "targets": {
+    "orders": {
+     "order_id": "Mã đơn hàng",
+     "order_datetime": "Ngày đặt hàng",
+     "status": "Trạng thái đơn hàng",
+     "customer_name": "Tên khách hàng"
+    },
+    "order_lines": {
+     "order_id": "Mã đơn hàng",
+     "product_name": "Tên sản phẩm",
+     "quantity": "Số lượng sản phẩm",
+     "unit": "Đơn vị tính",
+     "unit_price": "Giá sản phẩm",
+     "line_amount": "Tổng tiền"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Đã hoàn thành": "completed",
+  "Đã hủy": "cancelled",
+  "Đã hoàn hàng": "returned",
+  "Đang giao dịch": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

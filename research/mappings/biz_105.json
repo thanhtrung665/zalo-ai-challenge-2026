@@ -1,0 +1,81 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@BangGia.xlsx",
+   "targets": {
+    "price_history": {
+     "product_name": "ten_hang",
+     "effective_date": "Ngày áp dụng",
+     "price": "Giá mới",
+     "old_price": "Giá cũ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhMuc.xlsx",
+   "targets": {
+    "unit_conversions": {
+     "product_name": "Tên món",
+     "unit": "ĐV nhập",
+     "factor_to_base": "Hệ số"
+    },
+    "products": {
+     "product_name": "Tên món",
+     "base_unit": "Đơn vị gốc"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "SoBanHang_1",
+   "targets": {
+    "orders": {
+     "order_id": "Mã hóa đơn",
+     "order_datetime": "Ngày giao dịch",
+     "order_time": "Giờ",
+     "status": "Status",
+     "customer_name": "Khách"
+    },
+    "order_lines": {
+     "order_id": "Mã hóa đơn",
+     "product_name": "Hàng",
+     "quantity": "so_luong",
+     "unit": "Unit",
+     "unit_price": "Giá lẻ",
+     "line_amount": "Trị giá"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@SoNhapHang.xlsx",
+   "targets": {
+    "purchases": {
+     "receipt_id": "Số phiếu",
+     "product_name": "Tên mặt hàng",
+     "quantity": "SL nhập",
+     "unit": "ĐVT",
+     "unit_cost": "Giá nhập",
+     "receipt_date": "Ngày nhập",
+     "supplier": "Nhà cung cấp"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "đã lấy": "completed",
+  "đã xong": "completed",
+  "Đã hủy đơn": "cancelled",
+  "hủy": "cancelled",
+  "Trả hàng": "returned",
+  "hàng trả về": "returned",
+  "Đổi trả": "returned",
+  "Hoàn trả": "returned",
+  "Đang giao": "delivering",
+  "Đang giao hàng": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

@@ -1,0 +1,113 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@DanhSachChiTietNhapHang.xlsx",
+   "targets": {
+    "purchases": {
+     "receipt_id": "Mã nhập hàng",
+     "product_code": "Mã hàng",
+     "quantity": "Số lượng",
+     "unit": "ĐVT",
+     "unit_cost": "Đơn giá"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachDonViTinh.xlsx",
+   "targets": {
+    "unit_conversions": {
+     "product_code": "Mã hàng",
+     "unit": "ĐVT",
+     "factor_to_base": "Quy đổi"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachHoaDon.xlsx",
+   "targets": {
+    "orders": {
+     "order_id": "Mã hóa đơn",
+     "order_datetime": "Thời gian",
+     "order_time": "Thời gian tạo",
+     "status": "Trạng thái",
+     "customer_code": "Mã KH",
+     "customer_name": "Khách hàng",
+     "payment_method": "Phương thức thanh toán",
+     "order_discount": "Giảm giá",
+     "order_total": "Tổng sau giảm giá",
+     "paid_amount": "Khách đã trả"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachHoaDonChiTiet_1.xlsx",
+   "targets": {
+    "order_lines": {
+     "order_id": "Mã hóa đơn",
+     "product_code": "Mã hàng",
+     "product_name": "Tên hàng",
+     "quantity": "Số lượng",
+     "quantity_base": "Số lượng quy đổi",
+     "unit": "Đơn vị tính",
+     "unit_price": "Đơn giá",
+     "line_discount": "Giảm giá",
+     "line_amount": "Thành tiền",
+     "line_cost_per_unit": "Giá vốn"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachNhapHang.xlsx",
+   "targets": {
+    "purchase_headers": {
+     "receipt_id": "Mã nhập hàng",
+     "receipt_date": "Thời gian",
+     "supplier": "Mã NCC",
+     "status": "Trạng thái",
+     "amount": "Cần trả NCC"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachSanPham.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "Mã hàng",
+     "product_name": "Tên hàng",
+     "product_group": "Nhóm hàng(3 Cấp)",
+     "base_unit": "ĐVT",
+     "catalog_cost": "Giá vốn"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@SoQuy.xlsx",
+   "targets": {
+    "payments": {
+     "order_id": "Mã hóa đơn",
+     "pay_date": "Thời gian",
+     "amount": "Giá trị",
+     "method": "Phương thức thanh toán"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "xong": "completed",
+  "hủy đơn": "cancelled",
+  "trả lại": "returned",
+  "Hoàn thành": "completed",
+  "Đã hủy": "cancelled",
+  "Hoàn trả": "returned",
+  "Đang giao dịch": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

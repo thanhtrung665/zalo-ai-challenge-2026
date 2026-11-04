@@ -1,0 +1,30 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1",
+   "targets": {
+    "orders": {
+     "order_datetime": "Ngày mua",
+     "status": "Ghi chú TT"
+    },
+    "order_lines": {
+     "product_name": "Mặt hàng",
+     "quantity": "SL bán",
+     "quantity_base": "Số lượng lẻ",
+     "unit": "DonVi",
+     "unit_price": "Đơn giá bán",
+     "line_amount": "thanh_tien"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "xong": "completed",
+  "khách hủy": "cancelled",
+  "trả hàng": "returned",
+  "Đang vận chuyển": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

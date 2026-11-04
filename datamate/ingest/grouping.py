@@ -70,9 +70,10 @@ def detect_order_id_column(df: pd.DataFrame, *, min_repeat_ratio: float = 0.05) 
 
     for col in _data_columns(df):
         cn = _normalize_text(col)
-        if any(bad in cn for bad in _NOT_ORDER_ID):
-            continue
         name_match = any(h in cn for h in _ORDER_ID_HINTS)
+        # Loại cột tên/ngày/khách... theo TỪ nguyên vẹn, không theo chuỗi con ("ma don hang" chứa "hang")
+        if not name_match and any(f" {bad} " in f" {cn} " for bad in _NOT_ORDER_ID):
+            continue
         values = df[col].astype(str).str.strip()
         non_blank = values[values != ""]
         if non_blank.empty:

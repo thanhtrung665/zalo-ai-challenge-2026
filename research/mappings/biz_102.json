@@ -12,7 +12,8 @@
      "product_name": "Tên sản phẩm",
      "base_unit": "Đơn vị cơ bản"
     }
-   }
+   },
+   "constants": {}
   },
   {
    "source": "DonHang_ChiTiet",
@@ -31,13 +32,16 @@
      "unit_price": "Giá sản phẩm",
      "line_amount": "Tổng tiền"
     }
-   }
+   },
+   "constants": {}
   }
  ],
  "status_map": {
   "Đã hoàn thành": "completed",
-  "Đã hủy": "cancelled",
   "Đã hoàn hàng": "returned",
+  "Đã hủy": "cancelled",
   "Đang giao dịch": "delivering"
- }
+ },
+ "default_status": null,
+ "notes": []
 }

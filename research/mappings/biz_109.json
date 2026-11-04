@@ -5,18 +5,18 @@
    "targets": {
     "order_lines": {
      "order_id": "Mã hóa đơn",
-     "line_no": "STT",
      "product_code": "Mã hàng",
      "product_name": "Tên hàng",
      "quantity": "Số lượng",
-     "unit": "Đơn vị tính",
      "quantity_base": "Số lượng quy đổi",
+     "unit": "Đơn vị tính",
      "unit_price": "Đơn giá",
      "line_discount": "Giảm giá",
      "line_amount": "Thành tiền",
      "line_cost_per_unit": "Giá vốn"
     }
-   }
+   },
+   "constants": {}
   },
   {
    "source": "DanhSachHoaDon",
@@ -32,9 +32,11 @@
      "channel": "Kênh bán",
      "order_discount": "Giảm giá",
      "order_total": "Tổng sau giảm giá",
-     "staff": "Người bán"
+     "staff": "Người bán",
+     "paid_amount": "Khách đã trả"
     }
-   }
+   },
+   "constants": {}
   },
   {
    "source": "DanhSachSanPham",
@@ -46,7 +48,8 @@
      "base_unit": "ĐVT",
      "catalog_cost": "Giá vốn"
     }
-   }
+   },
+   "constants": {}
   },
   {
    "source": "DanhSachNhapHang",
@@ -58,7 +61,8 @@
      "status": "Trạng thái",
      "amount": "Cần trả NCC"
     }
-   }
+   },
+   "constants": {}
   },
   {
    "source": "DanhSachChiTietNhapHang",
@@ -70,7 +74,8 @@
      "unit": "ĐVT",
      "unit_cost": "Đơn giá"
     }
-   }
+   },
+   "constants": {}
   },
   {
    "source": "SoQuy",
@@ -81,7 +86,8 @@
      "amount": "Giá trị",
      "method": "Phương thức thanh toán"
     }
-   }
+   },
+   "constants": {}
   },
   {
    "source": "DanhSachDonViTinh",
@@ -91,16 +97,19 @@
      "unit": "ĐVT",
      "factor_to_base": "Quy đổi"
     }
-   }
+   },
+   "constants": {}
   }
  ],
  "status_map": {
   "đã lấy": "completed",
-  "Hoàn thành": "completed",
   "hủy đơn": "cancelled",
-  "Đã huỷ": "cancelled",
   "trả hàng": "returned",
+  "Hoàn thành": "completed",
+  "Đã huỷ": "cancelled",
   "Đã trả hàng": "returned",
   "Đang xử lý": "delivering"
- }
+ },
+ "default_status": null,
+ "notes": []
 }

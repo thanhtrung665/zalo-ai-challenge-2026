@@ -1,0 +1,87 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@DanhSachChiTietNhapHang.xlsx",
+   "targets": {
+    "purchases": {
+     "receipt_id": "Mã nhập hàng",
+     "product_code": "Mã hàng",
+     "quantity": "Số lượng",
+     "unit": "ĐVT",
+     "unit_cost": "Đơn giá"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachHoaDon.xlsx",
+   "targets": {
+    "orders": {
+     "order_id": "Mã hóa đơn",
+     "order_datetime": "Thời gian",
+     "order_time": "Thời gian tạo",
+     "status": "Trạng thái",
+     "customer_code": "Mã KH",
+     "customer_name": "Khách hàng",
+     "channel": "Kênh bán",
+     "order_discount": "Giảm giá",
+     "order_total": "Tổng sau giảm giá",
+     "staff": "Người bán",
+     "paid_amount": "Khách đã trả",
+     "debt_amount": "Còn nợ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachHoaDonChiTiet.xlsx",
+   "targets": {
+    "order_lines": {
+     "order_id": "Mã hóa đơn",
+     "product_code": "Mã hàng",
+     "product_name": "Tên hàng",
+     "quantity": "Số lượng",
+     "quantity_base": "Số lượng quy đổi",
+     "unit": "Đơn vị tính",
+     "unit_price": "Đơn giá",
+     "line_discount": "Giảm giá",
+     "line_amount": "Thành tiền"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachNhapHang.xlsx",
+   "targets": {
+    "purchase_headers": {
+     "receipt_id": "Mã nhập hàng",
+     "receipt_date": "Thời gian",
+     "supplier": "Mã NCC",
+     "status": "Trạng thái",
+     "amount": "Cần trả NCC"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@DanhSachSanPham.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "Mã hàng",
+     "product_name": "Tên hàng",
+     "product_group": "Nhóm hàng(3 Cấp)",
+     "base_unit": "ĐVT"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Hoàn thành": "completed",
+  "Đã hủy": "cancelled",
+  "Đã trả hàng": "returned",
+  "Đang giao hàng": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

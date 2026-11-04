@@ -1,0 +1,150 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1@BanHang_BanTheoLo.xlsx",
+   "targets": {
+    "sale_lots": {
+     "order_id": "Mã hóa đơn",
+     "line_no": "No.",
+     "batch_no": "Lô",
+     "quantity_base": "SL quy ra lẻ",
+     "returned_base": "SL trả (ĐVT cơ bản)"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@BanHang_ChiTietHoaDon.xlsx",
+   "targets": {
+    "order_lines": {
+     "order_id": "Mã giao dịch",
+     "product_code": "Ma hang",
+     "quantity": "Slg",
+     "quantity_base": "SL cơ bản",
+     "unit": "Đ.vị",
+     "line_discount": "Khuyến mãi",
+     "line_amount": "Thanh tien",
+     "line_cost_per_unit": "Giá vốn lúc bán"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@BanHang_DonViQuyDoi.xlsx",
+   "targets": {
+    "unit_conversions": {
+     "product_code": "Mã sp",
+     "unit": "Đơn vị",
+     "factor_to_base": "Bằng"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@BanHang_HangHoa.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "ma_sp",
+     "product_name": "Món",
+     "product_group": "Phân loại",
+     "base_unit": "Đơn vị",
+     "catalog_cost": "Giá vốn hiện tại"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@BanHang_HoaDon.xlsx",
+   "targets": {
+    "orders": {
+     "order_id": "Order ID",
+     "order_datetime": "Ngày bán",
+     "order_time": "Giờ tạo đơn",
+     "status": "Trạng thái",
+     "customer_code": "Mã KH mua",
+     "customer_name": "Tên KH",
+     "payment_method": "Phương thức TT",
+     "channel": "Nguồn đơn",
+     "order_discount": "CK",
+     "order_total": "Tong tien",
+     "staff": "Mã NV bán",
+     "paid_amount": "Đã thu",
+     "debt_amount": "Còn nợ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@BanHang_LichSuGia.xlsx",
+   "targets": {
+    "price_history": {
+     "product_code": "Mã sản phẩm",
+     "product_name": "Sản phẩm",
+     "effective_date": "Ngày áp dụng",
+     "price": "Giá mới",
+     "old_price": "Giá cũ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@BanHang_PhieuThu.xlsx",
+   "targets": {
+    "payments": {
+     "order_id": "Mã bill",
+     "pay_date": "Thời gian thu",
+     "amount": "Số tiền thu",
+     "method": "PTTT"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@BanHang_Thuoc.xlsx",
+   "targets": {
+    "products": {
+     "product_code": "Mã HH",
+     "active_ingredient": "Hoạt chất",
+     "is_prescription": "Kê đơn"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@SoTay_ChiPhi.xlsx",
+   "targets": {
+    "expenses": {
+     "date": "Ngày chi",
+     "category": "Mục",
+     "amount": "So tien"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "Sheet1@SoTay_NhapHang.xlsx",
+   "targets": {
+    "purchases": {
+     "receipt_id": "Số phiếu",
+     "product_name": "Product",
+     "quantity": "SL nhập",
+     "unit": "ĐVT nhập",
+     "unit_cost": "Giá nhập",
+     "batch_no": "Lô",
+     "expiry_date": "HSD",
+     "receipt_date": "Ngày nhập",
+     "supplier": "Nhà cung cấp"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Đổi trả": "returned",
+  "Đã giao": "completed",
+  "Không giao được": "cancelled",
+  "Đang vận chuyển": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

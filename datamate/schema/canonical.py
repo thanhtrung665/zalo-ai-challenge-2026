@@ -32,6 +32,8 @@ CANONICAL: dict[str, dict[str, Kind]] = {
         "branch": "str",
         "note": "str",
         "return_date": "date",
+        "paid_amount": "money",  # khách đã trả ghi ngay trên đơn (file không có sổ thu riêng)
+        "debt_amount": "money",  # còn nợ ghi trên đơn
     },
     "order_lines": {
         "order_id": "str",
@@ -84,6 +86,33 @@ CANONICAL: dict[str, dict[str, Kind]] = {
         "batch_no": "str",
     },
     "expenses": {"date": "date", "category": "str", "amount": "money"},
+    # D-008: bảng nghiệp vụ có trong dữ liệu train mà rulebook có luật tương ứng
+    "sale_lots": {
+        "order_id": "str",
+        "line_no": "int",
+        "batch_no": "str",
+        "quantity_base": "float",
+        "returned_base": "float",
+    },
+    "returns": {"order_id": "str", "return_date": "date", "refund_amount": "money", "reason": "str"},
+    "deliveries": {
+        "order_id": "str",
+        "delivery_date": "date",
+        "batch_no": "str",  # đợt giao (1, 2, 3)
+        "product_name": "str",
+        "quantity": "float",
+        "unit": "str",
+        "vehicle_plate": "str",
+        "driver": "str",
+    },
+    "debt_terms": {"order_id": "str", "due_days": "int", "due_date": "date"},
+    "price_history": {
+        "product_code": "str",
+        "product_name": "str",
+        "effective_date": "date",
+        "price": "money",
+        "old_price": "money",
+    },
 }
 
 # Cột ảo: chỉ có ở mapping, build gộp vào cột thật (giờ đặt đơn tách riêng cột ngày).
@@ -138,7 +167,8 @@ class CanonicalStore:
     capabilities: Capabilities = field(default_factory=Capabilities)
     # số dòng rác đã bỏ khi build, theo bảng nguồn (dòng ghi chú cuối bảng, header lặp lẫn trong dữ liệu)
     dropped_junk_rows: dict[str, int] = field(default_factory=dict)
-    warnings: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)  # validator hiển thị
+    info: list[str] = field(default_factory=list)  # ghi chú build (vd. số đơn đổi sang returned)
 
     def __getitem__(self, name: str) -> pd.DataFrame:
         return self.tables[name]

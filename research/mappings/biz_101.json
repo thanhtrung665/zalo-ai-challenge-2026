@@ -13,12 +13,13 @@
      "order_id": "Mã hóa đơn",
      "product_name": "Nội dung",
      "quantity": "so_luong",
-     "unit": "Đơn vị (tính)",
      "quantity_base": "Quy ra ĐV lẻ",
+     "unit": "Đơn vị (tính)",
      "unit_price": "Giá bán",
      "line_amount": "Thanh tien"
     }
-   }
+   },
+   "constants": {}
   }
  ],
  "status_map": {
@@ -27,7 +28,6 @@
   "Đổi trả": "returned",
   "Đang giao": "delivering"
  },
- "notes": [
-  "bảng phẳng: mỗi dòng một dòng hàng; không có giá vốn, thanh toán, nhập hàng"
- ]
+ "default_status": null,
+ "notes": []
 }

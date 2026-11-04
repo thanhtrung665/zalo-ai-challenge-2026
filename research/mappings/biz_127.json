@@ -1,0 +1,68 @@
+{
+ "tables": [
+  {
+   "source": "chi_tiet_don",
+   "targets": {
+    "order_lines": {
+     "order_id": "Mã đơn hàng",
+     "product_code": "Mã mặt hàng",
+     "quantity": "SoLuong",
+     "quantity_base": "Số lượng lẻ",
+     "unit": "DVT",
+     "unit_price": "Đơn giá (đ)",
+     "line_amount": "Amount"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "don_hang",
+   "targets": {
+    "orders": {
+     "order_id": "Mã chứng từ",
+     "order_datetime": "Ngày",
+     "status": "Tình trạng",
+     "customer_code": "Customer ID",
+     "payment_method": "Trả bằng",
+     "channel": "Loại bán",
+     "order_total": "Tổng đơn",
+     "paid_amount": "Khách trả",
+     "debt_amount": "Còn nợ"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "san_pham",
+   "targets": {
+    "products": {
+     "product_code": "Mã sản phẩm bán",
+     "product_name": "Tên SP",
+     "product_group": "Danh mục",
+     "base_unit": "Đơn vị cơ bản"
+    }
+   },
+   "constants": {}
+  },
+  {
+   "source": "thanh_toan",
+   "targets": {
+    "payments": {
+     "order_id": "Số CT",
+     "pay_date": "Ngày thu",
+     "amount": "Giá trị",
+     "method": "HTTT"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "completed": "completed",
+  "cancelled": "cancelled",
+  "returned": "returned",
+  "shipping": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}

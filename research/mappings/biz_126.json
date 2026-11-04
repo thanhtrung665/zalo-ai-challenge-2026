@@ -1,0 +1,30 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1",
+   "targets": {
+    "orders": {
+     "order_datetime": "Ngày tháng",
+     "status": "Trạng thái đơn"
+    },
+    "order_lines": {
+     "product_name": "Ten hang",
+     "quantity": "Số lượng bán",
+     "quantity_base": "SL lẻ",
+     "unit": "Đơn vị tính",
+     "unit_price": "Price",
+     "line_amount": "Thành tiền (đ)"
+    }
+   },
+   "constants": {}
+  }
+ ],
+ "status_map": {
+  "Đã giao": "completed",
+  "hủy": "cancelled",
+  "Trả hàng": "returned",
+  "đang gửi": "delivering"
+ },
+ "default_status": null,
+ "notes": []
+}
