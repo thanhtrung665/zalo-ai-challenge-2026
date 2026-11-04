@@ -39,13 +39,13 @@ Mốc chặn (gate) không đạt → dừng, báo người dùng, không chuy�
   - Chấp nhận: đọc 30 shop train + toàn bộ public_test không exception; test header lệch dòng, sheet theo tháng, sqlite; ≤ 60 s/shop lớn nhất.
   - Phụ thuộc: T01
 
-- [ ] **T05 — Làm sạch và parse**
+- [ ] **T05 — Làm sạch và parse** _(code + 45 test đã xong ở ea659f3; còn thiếu: báo cáo tỉ lệ parse lỗi <0,5% — cần `data/train`, chưa có ở môi trường này)_
   - Việc: parse số, ngày (serial, "thg", thiếu năm), fill-down cột cấp đơn, dedupe trong cùng đơn.
     Số lượng = **số đầu tiên** trong ô (`"1 hộp 30"` → 1, đơn vị "hộp 30"); tiền dạng `"65,000.0000"` (D-005, DATA_FINDINGS §6).
   - Chấp nhận: ≥ 40 test parser; báo cáo tỉ lệ ô ngày/số không parse được < 0,5% trên cột đã nhận diện; không có giá trị null bị đổi thành 0.
   - Phụ thuộc: T04
 
-- [ ] **T06 — Pipeline đầu-cuối tối thiểu**
+- [ ] **T06 — Pipeline đầu-cuối tối thiểu** _(04/11: `predict.py` + `io/` + 4 test xong; còn thiếu: chạy trên public_test thật và nộp thử leaderboard — cần dữ liệu)_
   - Việc: `datamate/predict.py` đọc `--data`, ghi `submission.jsonl` từng dòng + `logs/<id>.json`; hiện tại trả abstain cho mọi câu; đồng hồ tổng.
   - Chấp nhận: chạy trên public_test ra file hợp lệ theo `datamate.eval.validate`; nộp thử 1 lần lên leaderboard (PA kỳ vọng 0) để xác nhận format.
   - Phụ thuộc: T02, T05
@@ -65,7 +65,7 @@ Mốc chặn (gate) không đạt → dừng, báo người dùng, không chuy�
   - Chấp nhận: 30 shop train map xong không lỗi; người dùng review ≥ 10 shop, độ đúng mapping ≥ 95% cột quan trọng; test validator.
   - Phụ thuộc: T05, T09
 
-- [ ] **T11 — Bộ quy đổi thời gian**
+- [x] **T11 — Bộ quy đổi thời gian** _(04/11: 93 test, D-007)_
   - Việc: `datamate/timeutil/` mọi `PeriodKind` trong `docs/DSL.md`, Tết từ `calendar.csv`, tháng/quý thiếu năm, ca sáng/chiều, kỳ so sánh.
   - Chấp nhận: ≥ 60 test tính tay, gồm biên tháng 31→30/28, đầu năm, tuần qua năm, Tết.
   - Phụ thuộc: T00

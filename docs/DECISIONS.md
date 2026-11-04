@@ -2,6 +2,14 @@
 
 Mỗi quyết định: ngày, bối cảnh, lựa chọn, lý do, hệ quả. Mới nhất ở trên.
 
+## D-007 · 2026-11-04 · Quy ước timeutil cho kỳ so sánh và Tết
+
+- Bối cảnh: DSL §3 định nghĩa `previous_period` = kỳ liền trước cùng độ dài (riêng `this_month`: cùng số ngày của tháng trước).
+- Lựa chọn: làm đúng chữ DSL. Hệ quả: `last_month`/`month` so sánh với 28–31 ngày liền trước, **không** phải tháng dương lịch liền trước.
+  `this_month` cắt ở cuối tháng trước nếu hôm nay là ngày 29–31. Tết không dựa cột `lunar_year`: bắt cặp 23/12 với 10/1 (không nhuận) kế tiếp;
+  `tet` không ghi năm = Tết gần nhất đã bắt đầu. `all`/`as_of_end_of_day` cần `data_start` do caller truyền.
+- Rủi ro cần kiểm khi có `rulebook.md`/câu train so sánh kỳ (T12): nếu rulebook nói "tháng trước" là tháng dương lịch thì sửa riêng cho `last_month`/`month`.
+
 ## D-006 · 2026-10-31 · Parse README bằng regex trước khi gọi LLM
 
 - Bối cảnh: cả 30 README có `## File`, `## Quy ước`, "Dữ liệu có đến hết dd/mm/yyyy"; 18 README ghi quy đổi dạng "1 thùng = 24 lon".
