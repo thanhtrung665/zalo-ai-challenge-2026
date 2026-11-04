@@ -60,7 +60,7 @@ Mốc chặn (gate) không đạt → dừng, báo người dùng, không chuy�
   - Chấp nhận: `count_params` ≤ 15B cho tổ hợp chọn; quyết định ghi `docs/DECISIONS.md` + `MODELS.md` (tên, link, giấy phép, ngày phát hành, số tham số).
   - Phụ thuộc: T06
 
-- [ ] **T10 — Schema chuẩn + mapping** (skill `/build-schema-mapping`)
+- [ ] **T10 — Schema chuẩn + mapping** (skill `/build-schema-mapping`) _(04/11: xong phần CPU — canonical, ShopMapping, profile, build, validate, 21 test, build sạch trên 3 shop với mapping tay; còn: prompt.py + vòng retry LLM (cần T09), mapping 30 shop, review ≥10 shop)_
   - Việc: `datamate/schema/` profile cột, prompt mapping, validators, retry, CanonicalStore, Capabilities theo `docs/CANONICAL_SCHEMA.md`.
   - Chấp nhận: 30 shop train map xong không lỗi; người dùng review ≥ 10 shop, độ đúng mapping ≥ 95% cột quan trọng; test validator.
   - Phụ thuộc: T05, T09

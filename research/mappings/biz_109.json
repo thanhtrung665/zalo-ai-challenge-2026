@@ -1,0 +1,106 @@
+{
+ "tables": [
+  {
+   "source": "Sheet1",
+   "targets": {
+    "order_lines": {
+     "order_id": "Mã hóa đơn",
+     "line_no": "STT",
+     "product_code": "Mã hàng",
+     "product_name": "Tên hàng",
+     "quantity": "Số lượng",
+     "unit": "Đơn vị tính",
+     "quantity_base": "Số lượng quy đổi",
+     "unit_price": "Đơn giá",
+     "line_discount": "Giảm giá",
+     "line_amount": "Thành tiền",
+     "line_cost_per_unit": "Giá vốn"
+    }
+   }
+  },
+  {
+   "source": "DanhSachHoaDon",
+   "targets": {
+    "orders": {
+     "order_id": "Mã hóa đơn",
+     "order_datetime": "Thời gian",
+     "order_time": "Thời gian tạo",
+     "status": "Trạng thái",
+     "customer_code": "Mã KH",
+     "customer_name": "Khách hàng",
+     "payment_method": "Phương thức thanh toán",
+     "channel": "Kênh bán",
+     "order_discount": "Giảm giá",
+     "order_total": "Tổng sau giảm giá",
+     "staff": "Người bán"
+    }
+   }
+  },
+  {
+   "source": "DanhSachSanPham",
+   "targets": {
+    "products": {
+     "product_code": "Mã hàng",
+     "product_name": "Tên hàng",
+     "product_group": "Nhóm hàng(3 Cấp)",
+     "base_unit": "ĐVT",
+     "catalog_cost": "Giá vốn"
+    }
+   }
+  },
+  {
+   "source": "DanhSachNhapHang",
+   "targets": {
+    "purchase_headers": {
+     "receipt_id": "Mã nhập hàng",
+     "receipt_date": "Thời gian",
+     "supplier": "Mã NCC",
+     "status": "Trạng thái",
+     "amount": "Cần trả NCC"
+    }
+   }
+  },
+  {
+   "source": "DanhSachChiTietNhapHang",
+   "targets": {
+    "purchases": {
+     "receipt_id": "Mã nhập hàng",
+     "product_code": "Mã hàng",
+     "quantity": "Số lượng",
+     "unit": "ĐVT",
+     "unit_cost": "Đơn giá"
+    }
+   }
+  },
+  {
+   "source": "SoQuy",
+   "targets": {
+    "payments": {
+     "order_id": "Mã hóa đơn",
+     "pay_date": "Thời gian",
+     "amount": "Giá trị",
+     "method": "Phương thức thanh toán"
+    }
+   }
+  },
+  {
+   "source": "DanhSachDonViTinh",
+   "targets": {
+    "unit_conversions": {
+     "product_code": "Mã hàng",
+     "unit": "ĐVT",
+     "factor_to_base": "Quy đổi"
+    }
+   }
+  }
+ ],
+ "status_map": {
+  "đã lấy": "completed",
+  "Hoàn thành": "completed",
+  "hủy đơn": "cancelled",
+  "Đã huỷ": "cancelled",
+  "trả hàng": "returned",
+  "Đã trả hàng": "returned",
+  "Đang xử lý": "delivering"
+ }
+}

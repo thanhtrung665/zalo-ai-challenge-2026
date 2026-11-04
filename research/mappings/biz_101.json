@@ -1,0 +1,33 @@
+{
+ "tables": [
+  {
+   "source": "ban_hang",
+   "targets": {
+    "orders": {
+     "order_id": "Mã hóa đơn",
+     "order_datetime": "Ngày tháng",
+     "status": "Kết quả",
+     "customer_name": "Đối tác"
+    },
+    "order_lines": {
+     "order_id": "Mã hóa đơn",
+     "product_name": "Nội dung",
+     "quantity": "so_luong",
+     "unit": "Đơn vị (tính)",
+     "quantity_base": "Quy ra ĐV lẻ",
+     "unit_price": "Giá bán",
+     "line_amount": "Thanh tien"
+    }
+   }
+  }
+ ],
+ "status_map": {
+  "Xong": "completed",
+  "Đã hủy": "cancelled",
+  "Đổi trả": "returned",
+  "Đang giao": "delivering"
+ },
+ "notes": [
+  "bảng phẳng: mỗi dòng một dòng hàng; không có giá vốn, thanh toán, nhập hàng"
+ ]
+}
