@@ -69,10 +69,10 @@ def fake_vllm(monkeypatch: pytest.MonkeyPatch, *, new_api: bool = True, fail_cha
 @pytest.mark.parametrize("new_api", [True, False])
 def test_vllm_params_and_order(monkeypatch, new_api):
     calls = fake_vllm(monkeypatch, new_api=new_api)
-    prof = load_profile("kaggle_t4x2")
+    prof = load_profile("gpu_fp16")
     b = VLLMBackend("/models/m", prof)
     k = calls.llm_kwargs
-    assert k["dtype"] == "float16" and k["tensor_parallel_size"] == 2 and k["seed"] == 0
+    assert k["dtype"] == "float16" and k["tensor_parallel_size"] == 1 and k["seed"] == 0
     assert k["max_model_len"] == 8192 and k["enable_prefix_caching"] is True and k["trust_remote_code"] is False
     res = b.generate_json(["a", "b", "c"], Out)
     assert [r.parsed.x for r in res] == [1, 2, 3]  # thứ tự = thứ tự prompt
@@ -115,9 +115,10 @@ def test_missing_vllm_gives_llm_error(monkeypatch):
 
 def test_profiles_load_and_validate(tmp_path: Path, monkeypatch):
     assert load_profile("rtx5090x2").dtype == "bfloat16"
-    assert load_profile("kaggle_t4x2").dtype == "float16"  # T4 không có bf16
-    assert load_profile("kaggle_hf").backend == "hf"
-    monkeypatch.setenv("DATAMATE_LLM_PROFILE", "kaggle_hf")
+    assert load_profile("gpu_fp16").dtype == "float16"  # GPU không có bf16
+    assert load_profile("rtx5090x2_tp2").tensor_parallel_size == 2
+    assert load_profile("hf_fallback").backend == "hf"
+    monkeypatch.setenv("DATAMATE_LLM_PROFILE", "hf_fallback")
     assert load_profile().backend == "hf"
     monkeypatch.delenv("DATAMATE_LLM_PROFILE")
     with pytest.raises(KeyError):

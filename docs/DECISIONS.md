@@ -2,17 +2,18 @@
 
 Mỗi quyết định: ngày, bối cảnh, lựa chọn, lý do, hệ quả. Mới nhất ở trên.
 
-## D-009 · 2026-11-04 · Lớp LLM theo hồ sơ phần cứng, Kaggle chỉ để phát triển
+## D-009 · 2026-11-04 · Lớp LLM theo hồ sơ phần cứng; phát triển trên máy GPU thuê qua SSH
 
-- Bối cảnh: máy chấm là 2× RTX 5090 (bf16); môi trường dev của chúng ta là Kaggle (T4 ×2 hoặc P100, không bf16, không FlashAttention-2).
+- Bối cảnh: máy chấm là 2× RTX 5090 (bf16). Ban đầu định dùng Kaggle (T4/P100, không bf16); đổi sang **thuê máy GPU, kết nối SSH
+  (Antigravity)** để có shell cố định, CUDA đầy đủ và phần cứng gần máy chấm. Phần Kaggle đã bỏ.
 - Lựa chọn: `datamate/llm` có giao diện batch + `GenResult` (theo skill /llm-runtime), `VLLMBackend` (chính), `HFBackend` (dự phòng, không giải mã
-  ràng buộc), `MockBackend`. Tham số theo hồ sơ trong `configs/llm.yaml` (`rtx5090x2`, `kaggle_t4x2`, `kaggle_hf`), không sửa code khi đổi máy.
-  `kaggle/` chứa notebook T09, script cài/đóng gói và README.
-- Hệ quả: kết quả trên T4 (fp16, có thể lượng tử) chỉ dùng để loại model hỏng, so sánh tương đối và gỡ lỗi; số cuối cùng phải xác nhận lại trên
-  hồ sơ `rtx5090x2` (T41). Số tham số cho luật thi đo trên bản gốc, không đo trên bản AWQ/GPTQ (đếm thiếu).
-- **Chưa kiểm:** code vLLM/HF chưa từng chạy trên GPU thật, mới được test bằng module `vllm` giả (tham số, thứ tự kết quả, logprob, bọc lỗi).
-  Tên repo model (`Qwen/Qwen3.5-9B`...) là dự kiến; container dev không truy cập được huggingface.co nên chưa xác minh giấy phép/ngày phát hành
-  — notebook in các thông tin này từ HfApi, và chỉ những gì được in ra mới được ghi vào `MODELS.md`.
+  ràng buộc), `MockBackend`. Tham số theo hồ sơ trong `configs/llm.yaml` (`rtx5090x2`, `rtx5090x2_tp2`, `gpu_bf16`, `gpu_fp16`, `hf_fallback`) và có thể
+  ghi đè bằng `--tp/--dtype/...`; `scripts/env_report.py` đề xuất hồ sơ theo GPU thật. `remote/` chứa quy trình chạy (setup, dữ liệu, tải model, smoke,
+  benchmark). Tải model nằm ở `scripts/fetch_model.py` (không nằm trong `datamate/` để code runtime không có lời gọi mạng).
+- Hệ quả: nếu máy thuê không phải 2× 5090 thì số cuối vẫn phải xác nhận lại trên 2× 5090 (T41). Số tham số cho luật thi đo trên bản gốc, không đo trên bản
+  AWQ/GPTQ (đếm thiếu). `scripts/llm_smoke.py` kiểm thêm tính tất định và độc lập batch (nền tảng cho T31).
+- **Chưa kiểm:** code vLLM/HF chưa từng chạy trên GPU thật, mới được test bằng module `vllm` giả. Tên repo model là dự kiến; container dev không truy cập
+  được huggingface.co nên chưa xác minh giấy phép/ngày phát hành — `fetch_model.py` làm việc đó trên máy thuê và chỉ những gì nó in ra mới được ghi vào `MODELS.md`.
 
 ## D-008 · 2026-11-04 · Mở rộng schema chuẩn và bộ đề xuất mapping heuristic
 

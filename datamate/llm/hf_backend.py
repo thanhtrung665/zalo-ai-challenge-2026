@@ -1,4 +1,4 @@
-"""Backend Transformers (dự phòng khi vLLM không chạy được, vd. Kaggle P100/T4 với vLLM bản mới).
+"""Backend Transformers (dự phòng khi vLLM không chạy được, vd. GPU cũ hoặc bản vLLM không hỗ trợ phần cứng).
 
 KHÔNG giải mã có ràng buộc: JSON sinh tự do rồi parse; lỗi quay về vòng sửa của tầng gọi. Chậm hơn vLLM rất nhiều.
 Chỉ dùng để phát triển/benchmark; bản nộp dùng VLLMBackend (rule 40-llm: đầu ra có cấu trúc dùng giải mã ràng buộc).

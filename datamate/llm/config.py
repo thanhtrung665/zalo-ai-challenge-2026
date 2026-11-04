@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import os
 from pathlib import Path
 from typing import Literal
@@ -33,3 +34,46 @@ def load_profile(name: str | None = None, path: Path | None = None) -> LLMProfil
     if chosen not in cfg["profiles"]:
         raise KeyError(f"không có hồ sơ LLM {chosen!r}; có: {sorted(cfg['profiles'])}")
     return LLMProfile.model_validate(cfg["profiles"][chosen])
+
+
+def apply_overrides(
+    profile: LLMProfile,
+    *,
+    tensor_parallel_size: int | None = None,
+    dtype: str | None = None,
+    max_model_len: int | None = None,
+    gpu_memory_utilization: float | None = None,
+    quantization: str | None = None,
+) -> LLMProfile:
+    """Ghi đè một vài tham số của hồ sơ (CLI của công cụ benchmark/smoke); giá trị None = giữ nguyên."""
+    changes = {
+        k: v
+        for k, v in {
+            "tensor_parallel_size": tensor_parallel_size,
+            "dtype": dtype,
+            "max_model_len": max_model_len,
+            "gpu_memory_utilization": gpu_memory_utilization,
+            "quantization": quantization,
+        }.items()
+        if v is not None
+    }
+    return LLMProfile.model_validate({**profile.model_dump(), **changes})
+
+
+def add_override_args(ap: argparse.ArgumentParser) -> None:
+    ap.add_argument("--tp", type=int, default=None, help="ghi đè tensor_parallel_size")
+    ap.add_argument("--dtype", choices=["bfloat16", "float16", "auto"], default=None)
+    ap.add_argument("--max-model-len", type=int, default=None)
+    ap.add_argument("--gpu-util", type=float, default=None, help="gpu_memory_utilization")
+    ap.add_argument("--quantization", default=None)
+
+
+def profile_from_args(args: argparse.Namespace) -> LLMProfile:
+    return apply_overrides(
+        load_profile(args.profile),
+        tensor_parallel_size=args.tp,
+        dtype=args.dtype,
+        max_model_len=args.max_model_len,
+        gpu_memory_utilization=args.gpu_util,
+        quantization=args.quantization,
+    )

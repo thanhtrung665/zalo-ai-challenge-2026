@@ -1173,6 +1173,7 @@ dev = [
     { name = "ruff" },
 ]
 llm = [
+    { name = "huggingface-hub" },
     { name = "safetensors" },
     { name = "transformers" },
     { name = "vllm", version = "0.5.0.post1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
@@ -1196,6 +1197,7 @@ requires-dist = [
     { name = "charset-normalizer", marker = "extra == 'data'", specifier = ">=3.3" },
     { name = "datasets", marker = "extra == 'train'" },
     { name = "duckdb", marker = "extra == 'data'", specifier = ">=1.0" },
+    { name = "huggingface-hub", marker = "extra == 'llm'" },
     { name = "openpyxl", marker = "extra == 'data'", specifier = ">=3.1" },
     { name = "orjson", marker = "extra == 'data'", specifier = ">=3.10" },
     { name = "pandas", marker = "extra == 'data'", specifier = ">=2.2" },

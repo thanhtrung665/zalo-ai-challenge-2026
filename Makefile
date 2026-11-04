@@ -4,12 +4,12 @@ test:
 	uv run pytest -q
 
 lint:
-	uv run ruff check datamate tests scripts research kaggle
-	uv run ruff format --check datamate tests scripts research kaggle
+	uv run ruff check datamate tests scripts research
+	uv run ruff format --check datamate tests scripts research
 
 format:
-	uv run ruff format datamate tests scripts research kaggle
-	uv run ruff check --fix datamate tests scripts research kaggle
+	uv run ruff format datamate tests scripts research
+	uv run ruff check --fix datamate tests scripts research
 
 compliance:
 	uv run python scripts/check_compliance.py

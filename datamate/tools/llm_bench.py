@@ -1,6 +1,6 @@
 """Benchmark LLM trên bài map schema (T09): JSON hợp lệ, số lỗi validator, độ khớp mapping chuẩn, thời gian, VRAM.
 
-    uv run python -m datamate.tools.llm_bench --model models/qwen --split data/train --profile kaggle_t4x2 \
+    uv run python -m datamate.tools.llm_bench --model models/qwen --split .cache/split/train --profile rtx5090x2 \
         --out runs/llm_bench/qwen.json [--shops <shop_id> ...]
 
 Không chọn shop theo tên trong code: mặc định lấy 5 shop cách đều trong danh sách đã sắp xếp.
@@ -20,6 +20,7 @@ from typing import Any
 
 from datamate.ingest.loader import load_business
 from datamate.llm.base import GenResult, LLMBackend, T
+from datamate.llm.config import add_override_args, profile_from_args
 from datamate.schema.agreement import agreement
 from datamate.schema.mapper import map_shop
 from datamate.schema.mapping import ShopMapping
@@ -138,6 +139,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--model", required=True, help="thư mục weights")
     ap.add_argument("--split", required=True, help="thư mục split có data/<biz>")
     ap.add_argument("--profile", default=None, help="hồ sơ trong configs/llm.yaml")
+    add_override_args(ap)
     ap.add_argument("--shops", nargs="*", default=[])
     ap.add_argument("--n-shops", type=int, default=5)
     ap.add_argument("--out", required=True)
@@ -150,12 +152,14 @@ def main(argv: list[str] | None = None) -> int:
     shops = args.shops or pick_shops(split, args.n_shops)
     params, param_warnings = count_dir(Path(args.model))
     t0 = time.perf_counter()
-    backend = create_backend(args.model, args.profile)
+    profile = profile_from_args(args)
+    backend = create_backend(args.model, profile)
     load_s = round(time.perf_counter() - t0, 1)
     rep = run_bench(backend, split, shops)
     rep |= {
         "model": args.model,
         "profile": args.profile,
+        "profile_effective": profile.model_dump(),
         "params": params,
         "param_warnings": param_warnings,
         "load_seconds": load_s,
