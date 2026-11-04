@@ -60,6 +60,20 @@ Mọi shop được map về các bảng dưới đây (`datamate/schema/canonic
 ### expenses
 `date, category, amount`.
 
+### Bảng bổ sung (D-008, 04/11/2026)
+Phát hiện khi map 30 shop train; rulebook train có luật cho từng bảng.
+
+| Bảng | Cột | Dùng cho |
+|---|---|---|
+| orders (cột thêm) | `paid_amount`, `debt_amount` | số khách đã trả / còn nợ ghi ngay trên đơn (shop không có sổ thu riêng) |
+| sale_lots | `order_id, line_no, batch_no, quantity_base, returned_base` | bán theo lô; `returned_base > 0` ⇒ đơn có trả hàng (kể cả một phần) ⇒ `status = returned` |
+| returns | `order_id, return_date, refund_amount, reason` | phiếu trả hàng; cũng ⇒ `returned` và `orders.return_date` |
+| deliveries | `order_id, delivery_date, batch_no, product_name, quantity, unit, vehicle_plate, driver` | "giao nhiều đợt" |
+| debt_terms | `order_id, due_days, due_date` | nợ quá hạn |
+| price_history | `product_code, product_name, effective_date, price, old_price` | "hiệu ứng tăng giá" |
+
+`build_store` suy `orders.status = returned` từ `sale_lots`/`returns` cho đơn đang `completed|delivering`; đơn `cancelled` giữ nguyên.
+
 ### domain_events
 Bảng mở cho ngành đặc thù, mỗi loại một `event_type`: `repair_ticket` (biển số, dòng xe, việc làm, thợ, bảo hành), `warranty`,
 `installment` (kỳ góp, hạn, đã góp), `membership` (ngày đăng ký), `delivery_batch` (đợt giao), `cash_shift_report`…

@@ -2,6 +2,20 @@
 
 Mỗi quyết định: ngày, bối cảnh, lựa chọn, lý do, hệ quả. Mới nhất ở trên.
 
+## D-008 · 2026-11-04 · Mở rộng schema chuẩn và bộ đề xuất mapping heuristic
+
+- Bối cảnh: map 30 shop train lộ ra dữ liệu mà schema ban đầu không có chỗ chứa: giao nhiều đợt, hạn công nợ, lịch sử giá, bán theo lô kèm
+  số lượng trả lại, phiếu trả hàng, số đã trả/còn nợ ghi trên đơn. Rulebook train có luật cho cả những thứ này.
+- Lựa chọn: thêm `sale_lots, returns, deliveries, debt_terms, price_history` và `orders.paid_amount/debt_amount` (xem CANONICAL_SCHEMA.md).
+  Thêm `schema/propose.py` (từ vựng tên cột + mô tả README, không LLM) làm bản nháp cho prompt, phương án dự phòng và mốc đo.
+- Số đo: 104/356 (29%) tên cột của public_test không có trong train → từ vựng cố định chỉ là prior yếu; LLM là bộ phận chính.
+- Bẫy dữ liệu đã bắt được nhờ validator: cột mã đơn "Mã đơn hàng" bị loại nhầm vì chứa "hàng" (T05, lỗi ở `grouping.py`);
+  dòng "Tổng ngày dd/mm" xen trong sổ tự ghi (không có trong README); cache ghi đè bảng cùng tên.
+- **Chưa được kiểm độc lập:** `research/mappings/*.json` là bản nháp heuristic được tôi đọc lướt, không phải đáp án chuẩn đã duyệt. Độ đúng thật
+  chỉ đo được ở T12 (doanh thu/số lượng khớp `answers.jsonl`). Trạng thái "Không giao được" tạm map `cancelled`, "hàng trả về" ⇒ `returned`,
+  "ok" ⇒ `completed`; cần kiểm bằng câu train ở T12.
+- Không hand-label shop của public_test (ranh giới luật thi); mapping chuẩn chỉ cho shop train.
+
 ## D-007 · 2026-11-04 · Quy ước timeutil cho kỳ so sánh và Tết
 
 - Bối cảnh: DSL §3 định nghĩa `previous_period` = kỳ liền trước cùng độ dài (riêng `this_month`: cùng số ngày của tháng trước).

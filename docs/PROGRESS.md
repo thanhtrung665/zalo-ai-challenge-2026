@@ -16,6 +16,7 @@ Mỗi task xong hoặc mỗi lần đo PA thêm một dòng **ở đầu bảng*
 
 | Ngày | Task | Thay đổi | PA 5 fold | Ghi chú |
 |---|---|---|---|---|
+| 2026-11-04 | T10 (phần lớn) | `propose/prompt/mapper/mapping_report`, backend LLM giả + giao diện; schema +6 bảng (D-008); sửa `detect_order_id_column` (T05) và dòng tổng ngày; 30 shop train build không lỗi nặng; ~330 test | — | T10 chưa tick: cần LLM thật (T09), review của người dùng, đo độ đúng ở T12 |
 | 2026-11-04 | T10 (một phần) | `datamate/schema/{canonical,mapping,profile,build,validate}.py` + `research/mappings/` (3 shop) + `research/build_check.py`; 21 test | — | Build khớp số dòng gốc trên biz_101/102/109; validator bắt được lỗi bản thân (NA→"na", đơn vị trong ô SL). Còn LLM prompt/retry |
 | 2026-11-04 | T05 | Sửa lỗi cache ghi đè bảng cùng tên (T04); đo lại parse trên dữ liệu đúng: train 0/10,54M, public 37/4,23M | — | Số liệu parse đo trước đó bị loại bỏ (đo trên cache hỏng). Việc dở: lọc dòng ghi chú cuối bảng + header lặp ở T10 |
 | 2026-11-04 | T05/T06 | Đo parse trên train + public_test thật; sửa `parse_report` (đếm lỗi bị cắt ở 200, tổng ô cộng dồn, cột `(ngày)` là số ngày); predict trên public_test hợp lệ 1000/1000 | — | Hoàn thành T05, T06 (chờ nộp thử leaderboard). Dữ liệu giải nén ở /tmp vì `data/` bị chặn ghi |
