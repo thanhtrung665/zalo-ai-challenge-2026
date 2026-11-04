@@ -39,7 +39,7 @@ Mốc chặn (gate) không đạt → dừng, báo người dùng, không chuy�
   - Chấp nhận: đọc 30 shop train + toàn bộ public_test không exception; test header lệch dòng, sheet theo tháng, sqlite; ≤ 60 s/shop lớn nhất.
   - Phụ thuộc: T01
 
-- [ ] **T05 — Làm sạch và parse** _(04/11: đã sửa lỗi cache ghi đè bảng cùng tên; đang đo lại tỉ lệ parse trên dữ liệu đúng — số liệu trước đó không còn hợp lệ)_
+- [x] **T05 — Làm sạch và parse** _(04/11, đo lại sau khi sửa cache: train 0/10,54M ô lỗi; public_test 37/4,23M = 0,0009% (32 dòng ghi chú cuối bảng + 5 ô là dòng header lặp lẫn trong dữ liệu — T10 validator phải lọc); null→0: 0)_
   - Việc: parse số, ngày (serial, "thg", thiếu năm), fill-down cột cấp đơn, dedupe trong cùng đơn.
     Số lượng = **số đầu tiên** trong ô (`"1 hộp 30"` → 1, đơn vị "hộp 30"); tiền dạng `"65,000.0000"` (D-005, DATA_FINDINGS §6).
   - Chấp nhận: ≥ 40 test parser; báo cáo tỉ lệ ô ngày/số không parse được < 0,5% trên cột đã nhận diện; không có giá trị null bị đổi thành 0.
